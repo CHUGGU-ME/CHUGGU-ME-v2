@@ -1,7 +1,21 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import kotlinx.cli.ArgParser
+import subcommand.GoalSubCommand
+import subcommand.NewsSubCommand
+import subcommand.PlayerSubCommand
+import subcommand.UpdateSubCommand
+import kotlin.system.exitProcess
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+
+fun main(args: Array<String>) {
+    val parser = ArgParser("chuggue-me")
+
+    parser.subcommands(NewsSubCommand(), PlayerSubCommand(), UpdateSubCommand(), GoalSubCommand())
+    parser.parse(args)
+
+    exitProcess(0)
+
 }
+
+
+
+
