@@ -3,13 +3,19 @@ package subcommand
 import com.microsoft.playwright.ElementHandle
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.Page.WaitForLoadStateOptions
+import com.microsoft.playwright.Route
 import com.microsoft.playwright.options.LoadState
 import common.PlaywrightUtil
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
+import java.io.File
+import java.nio.file.Path
+import java.util.*
+import kotlin.collections.HashMap
 
 @OptIn(ExperimentalCli::class)
 class UpdateSubCommand : Subcommand("update", "Update Data") {
+
 
     val page: Page = PlaywrightUtil.page
 
@@ -20,6 +26,7 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
             page.querySelector("#onetrust-accept-btn-handler").click()
         }
         page.waitForLoadState(LoadState.NETWORKIDLE)
+        page.route("**/*.{png,jpg,jpeg}") { route: Route -> route.abort() }
     }
 
 
@@ -27,9 +34,26 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
         looadPlayersPage()
 
         page.keyboard().press("End")
-        page.waitForLoadState(LoadState.NETWORKIDLE, WaitForLoadStateOptions().setTimeout(2000.0))
+        page.waitForTimeout(5000.0)
 
-        val palyers: List<ElementHandle> = page.querySelectorAll("tr.player")
-        /// ... ing..
+        val players: List<ElementHandle> = page.querySelectorAll("tr.player")
+
+        val savePlayerData = linkedMapOf<String, String>()
+
+        players.forEach {
+            val urlInfo: String = it.querySelector("a.player__name").getAttribute("href").split("players/")[1].replace("/overview", "")
+
+            val keyword = urlInfo.split("/")[1].uppercase(Locale.getDefault())
+            val urlData: String = urlInfo
+            savePlayerData[keyword] = urlData
+
+        }
+
+
+        val file = File(Path.of("./","data.json").toUri())
+
+
+
+    /// ... ing..
     }
 }

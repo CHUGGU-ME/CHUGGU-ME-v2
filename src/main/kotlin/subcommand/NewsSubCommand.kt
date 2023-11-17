@@ -6,10 +6,8 @@ import com.microsoft.playwright.Page
 import com.microsoft.playwright.Playwright
 import com.microsoft.playwright.options.LoadState
 import common.PlaywrightUtil
-import kotlinx.cli.ArgType
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
-import kotlinx.cli.multiple
 
 @OptIn(ExperimentalCli::class)
 class NewsSubCommand : Subcommand("news", "News") {

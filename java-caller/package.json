@@ -1,9 +1,10 @@
 {
   "name": "java-runner",
-  "version": "1.0.0",
-  "type": "module",
+  "version": "1.0.1",
+  "type": "commonjs",
   "description": "",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --trace-warnings ./index.js",

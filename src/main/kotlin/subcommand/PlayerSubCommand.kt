@@ -14,7 +14,7 @@ class PlayerSubCommand : Subcommand("player", "Player info") {
     val page: Page = PlaywrightUtil.page
     val playerName by argument(ArgType.String, description = "Player Name")
 
-    fun looadPlayersPage() {
+    fun loadPlayersPage() {
         page.navigate("https://www.premierleague.com/players")
         page.waitForLoadState(LoadState.LOAD)
         if (page.querySelector("#onetrust-banner-sdk > div").isVisible) {
@@ -26,7 +26,7 @@ class PlayerSubCommand : Subcommand("player", "Player info") {
 
     override fun execute() {
 
-        looadPlayersPage()
+        loadPlayersPage()
 
         page.querySelector("#search-input").fill(playerName)
         page.querySelector("#mainContent > div.playerIndex > header > div > div > div > div")
