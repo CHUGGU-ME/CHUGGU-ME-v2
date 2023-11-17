@@ -42,8 +42,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
+      - run: *install_yarn_version
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
       - run:
@@ -54,8 +54,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
+      - run: *install_yarn_version
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
       - run:
