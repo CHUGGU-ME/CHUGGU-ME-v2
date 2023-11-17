@@ -15,6 +15,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.6")
     implementation("org.apache.commons:commons-lang3:3.13.0")
     implementation("com.microsoft.playwright:playwright:1.28.1")
+    implementation("com.google.code.gson:gson:2.10.1")
     testImplementation(kotlin("test"))
 }
 
