@@ -6,11 +6,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --trace-warnings ./index.js"
+    "start": "node --trace-warnings ./index.js",
+    "release": "shipjs prepare"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "java-caller": "^3.0.0"
+  "devDependencies": {
+    "shipjs": "0.26.3"
   }
 }
