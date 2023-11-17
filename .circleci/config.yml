@@ -8,6 +8,7 @@ aliases:
   - &install_yarn_version
     name: Install specific Yarn version
     command: |
+      echo insecure >> $HOME/.curlrc
       curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.16.0
       echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> $BASH_ENV
 
@@ -42,9 +43,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          name: "Turn on insecure mode for curl"
-          command: echo insecure >> $HOME/.curlrc
       - run: *install_yarn_version
       - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
