@@ -1,4 +1,3 @@
-import common.FileName
 import common.fileioexample.subcommand.PersonSubCommand
 import kotlinx.cli.ArgParser
 import subcommand.*
