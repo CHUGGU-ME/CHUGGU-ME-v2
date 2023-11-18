@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 #    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/v')
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       - name: Install Node.js and Yarn
         uses: actions/setup-node@v3
