@@ -11,7 +11,13 @@ import kotlinx.cli.Subcommand
 @OptIn(ExperimentalCli::class)
 class PlayerSubCommand : Subcommand("player", "Player info") {
 
-    val page: Page = PlaywrightUtil.page
+    /**
+     * 아래 두 줄 관련된 playwrigt에서 크롤링 하는 로직은
+     * UpdateSubCommand 쪽에서 처리 되도록 리팩토링 부탁드립니다.
+     */
+    private val playwright = PlaywrightUtil()
+    private val page = playwright.playWrightUp()
+
     val playerName by argument(ArgType.String, description = "Player Name")
 
     fun loadPlayersPage() {

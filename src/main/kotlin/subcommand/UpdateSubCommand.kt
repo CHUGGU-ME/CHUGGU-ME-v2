@@ -1,7 +1,6 @@
 package subcommand
 
 import com.microsoft.playwright.ElementHandle
-import com.microsoft.playwright.Page
 import com.microsoft.playwright.Route
 import com.microsoft.playwright.options.LoadState
 import common.PlaywrightUtil
@@ -14,7 +13,9 @@ import java.util.*
 @OptIn(ExperimentalCli::class)
 class UpdateSubCommand : Subcommand("update", "Update Data") {
 
-    val page: Page = PlaywrightUtil.page
+
+    private val playwright = PlaywrightUtil()
+    private val page = playwright.playWrightUp()
 
     fun looadPlayersPage() {
         page.navigate("https://www.premierleague.com/players")

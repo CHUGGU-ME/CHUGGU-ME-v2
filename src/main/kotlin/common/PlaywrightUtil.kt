@@ -3,7 +3,7 @@ package common
 import com.microsoft.playwright.*
 
 class PlaywrightUtil {
-    companion object{
+    fun playWrightUp(): Page {
         val playwright: Playwright = Playwright.create()
         val browser: Browser = playwright
             .chromium()
@@ -13,5 +13,6 @@ class PlaywrightUtil {
             )
         val context: BrowserContext = browser.newContext()
         val page: Page = context.newPage()
+        return page
     }
 }
