@@ -1,4 +1,4 @@
-package domain.person
+package common.fileioexample.person
 
 import kotlinx.serialization.Serializable
 

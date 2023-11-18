@@ -1,3 +1,4 @@
+import common.fileioexample.subcommand.PersonSubCommand
 import kotlinx.cli.ArgParser
 import subcommand.*
 import kotlin.system.exitProcess
@@ -11,7 +12,8 @@ fun main(args: Array<String>) {
         PlayerSubCommand(),
         UpdateSubCommand(),
         GoalSubCommand(),
-        PersonSubCommand()
+        PersonSubCommand(),
+        ArticleSubCommand()
         )
     parser.parse(args)
 
