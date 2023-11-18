@@ -1,5 +1,9 @@
 name: Release Workflow
 
+permissions:
+  contents: read
+  pages: write 
+
 on:
 #  pull_request:
   push:
