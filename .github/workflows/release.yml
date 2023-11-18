@@ -24,13 +24,11 @@ jobs:
           curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.16.0
           echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> "$HOME"/.bashrc
         shell: bash
-#
+
 #      - name: Install Dependencies
 #        run: yarn install --frozen-lockfile
-#
 #      - name: Run Tests
 #        run: yarn test
-#
       - name: Prepare release
         working-directory: java-caller
         uses: actions/setup-node@v4
