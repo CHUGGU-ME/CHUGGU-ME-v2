@@ -1,6 +1,7 @@
 name: Release Workflow
 
 on:
+#  pull_request:
   push:
     branches:
       - main
@@ -8,9 +9,10 @@ on:
 jobs:
   deploy-job:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/v')
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Node.js and Yarn
         uses: actions/setup-node@v4
@@ -22,17 +24,31 @@ jobs:
           curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.16.0
           echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> "$HOME"/.bashrc
         shell: bash
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+#
+#      - name: Install Dependencies
+#        run: yarn install --frozen-lockfile
 
 #      - name: Run Tests
 #        run: yarn test
 
       - name: Prepare release
         working-directory: java-caller
+        uses: actions/setup-node@v4
+        with:
+          registry-url: "registry.npmjs.org"
         run: |
           git config --global user.email "yoojin.an0@gmail.com"
           git config --global user.name "안유진"
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+#          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
           yarn run release --yes --no-browse
+
+      - name: Release to npm
+        run: |
+          if [ -f "yarn.lock" ]; then
+          yarn install
+          else
+          npm install
+          fi
+          yarn shipjs trigger
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
