@@ -10,7 +10,7 @@
     "start": "node --trace-warnings ./index.js",
     "release": "shipjs prepare"
   },
-  "author": "",
+  "author": "anew",
   "license": "ISC",
   "devDependencies": {
     "shipjs": "0.26.3"
