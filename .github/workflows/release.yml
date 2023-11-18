@@ -51,3 +51,5 @@ jobs:
         run: |
           cd ./java-caller
           yarn shipjs trigger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
