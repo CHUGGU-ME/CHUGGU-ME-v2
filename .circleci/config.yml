@@ -24,10 +24,10 @@ aliases:
 
   - &run_yarn_install
     name: Install dependencies
-    command: yarn install
+    command: yarn install --frozen-lockfile
 
 defaults: &defaults
-  working_directory: ~/repo
+  working_directory: java-caller
   docker:
     - image: circleci/node:latest
 
