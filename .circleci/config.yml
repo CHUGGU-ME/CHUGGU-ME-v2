@@ -37,7 +37,7 @@ jobs:
     steps:
       - add_ssh_keys:
         fingerprints:
-          - "af:32:01:ff:74:84:f2:47:d7:d3:3f:ed:0f:e5:7f:ee"
+          - "08:5f:88:db:59:53:56:37:64:6f:63:06:11:ed:fe:ff"
   test:
     <<: *defaults
     steps:
