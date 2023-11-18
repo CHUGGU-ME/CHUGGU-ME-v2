@@ -49,6 +49,5 @@ jobs:
 
       - name: Release to npm
         run: |
+          cd ./java-caller
           yarn shipjs trigger
-        # env:
-        #   NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
