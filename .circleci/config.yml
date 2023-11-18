@@ -33,6 +33,11 @@ defaults: &defaults
 
 version: 2
 jobs:
+  deploy-job:
+    steps:
+      - add_ssh_keys:
+        fingerprints:
+          - "af:32:01:ff:74:84:f2:47:d7:d3:3f:ed:0f:e5:7f:ee"
   test:
     <<: *defaults
     steps:
