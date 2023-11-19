@@ -30,7 +30,9 @@ jobs:
           echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> "$HOME"/.bashrc
         shell: bash    
 
-      - name: Release to npm
+      - name:
+
+      - name: Prepare release
         uses: actions/setup-node@v3
         with:
           registry-url: "https://registry.npmjs.org"
@@ -43,7 +45,14 @@ jobs:
           fi
           git config --global user.email "yoojin.an0@gmail.com"
           git config --global user.name "안유진"
-          npx shipjs trigger
+          yarn run release --yes --no-browse
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+
+      - name: Release to npm
+        run: |
+          cd ./java-caller
+          yarn shipjs trigger
+        env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
