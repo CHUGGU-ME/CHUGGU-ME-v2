@@ -3,3 +3,4 @@
 build
 .DS_Store
 java-caller/.env
+java-caller/node_modules
