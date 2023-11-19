@@ -1,3 +1,7 @@
+## [1.0.16](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.15...v1.0.16) (2023-11-19)
+아니 staged 상태인 작업물 있으면 shipjs prepare 자체가 안 되는데 yarn run release하면 왜 아직 작업물이 남아있다고 하는거야  
+
+
 ## [1.0.15](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.14...v1.0.15) (2023-11-19)
 진짜... 어이없어.... 빈 step은 왜 쓰냐구
 
