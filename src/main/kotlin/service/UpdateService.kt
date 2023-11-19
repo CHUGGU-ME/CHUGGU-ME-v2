@@ -5,6 +5,7 @@ import com.microsoft.playwright.Page
 import com.microsoft.playwright.Route
 import com.microsoft.playwright.options.LoadState
 import common.FileName
+import common.PlaywrightUtil
 import common.readFromFile
 import common.saveToBin
 import domain.News
@@ -18,14 +19,8 @@ class UpdateService(
 
     private fun loadPlayersPage() {
         page.navigate("https://www.premierleague.com/players")
-        page.waitForLoadState(LoadState.LOAD)
-        if (page.querySelector("#onetrust-banner-sdk > div").isVisible) {
-            page.querySelector("#onetrust-accept-btn-handler").click()
-        }
-        if(page.querySelector("#advertClose").isVisible){
-            page.querySelector("#advertClose").click()
-        }
-        page.route("**/*.{png,jpg,jpeg}") { route: Route -> route.abort() }
+        PlaywrightUtil.firstStepOnPage(page)
+        PlaywrightUtil.ignoreDownImage(page)
     }
 
     fun updatePlayers() {
