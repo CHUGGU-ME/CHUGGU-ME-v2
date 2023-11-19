@@ -1,5 +1,5 @@
 {
-  "name": "java-runner",
+  "name": "chuggume",
   "version": "1.0.8",
   "type": "commonjs",
   "description": "",
@@ -9,7 +9,7 @@
     "start": "node --trace-warnings ./index.js",
     "release": "shipjs prepare"
   },
-  "author": "anew",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "shipjs": "0.26.3"
