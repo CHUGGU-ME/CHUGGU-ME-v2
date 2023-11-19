@@ -1,5 +1,5 @@
 ## [1.0.4](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.6...v1.0.4) (2023-11-19)
-
+release 테스트
 
 
 ## [1.0.6](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.5...v1.0.6) (2023-11-19)
