@@ -17,5 +17,8 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "repository": ""
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CHUGGU-ME/CHUGGU-ME-v2.git"
+  }
 }
