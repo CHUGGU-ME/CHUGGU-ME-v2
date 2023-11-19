@@ -1,3 +1,7 @@
+## [1.0.9](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.8...v1.0.9) (2023-11-19)
+release 테스트 2222222222
+
+
 ## [1.0.8](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.7...v1.0.8) (2023-11-19)
 release 테스트 제발
 
