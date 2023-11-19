@@ -49,6 +49,11 @@ Pure Kotlin + brew & npm
 - 그리고 각 feature 브랜치를 생성하고 기능 개발이 끝나면 PR( Pull Request)를 생성하여, 팀원들의 코드리뷰를 받게됩니다.
 - feature 브랜치의 코드리뷰가 끝나면 Dev 브랜치로 Merge가 되고, Dev 브랜치는 Prod로 Push를 하게 되는거죠.
 
+## じゃ、どう使ってますか？
+各々の開発のメインブランチはDev、 Prodに基づいてます。この二つのブランチでFeatureブランチが作られます。各々のFeatureブランチは昨日を中心にして作られます。
+  Ex) 会員登録機能を作るのなら`feature/tony`　こうゆう方式で作ればいいです。
+- そして、各Featureブランチを作り、機能の開発が終わればPR( Pull Request)を要請し、チームからのコードレビューを受けてもらいます。
+- featureブランチのコードレビューが終わればDevブランチにMergeされ、DevブランチはProdへPushすることになります。
 
 ## 우리들의 규칙
 #### [ GitHub 템플릿으로 Issue & Feature Request 내용 규격화]
