@@ -1,29 +1,46 @@
 package subcommand
 
-import Repository.ArticleRepository
+import com.microsoft.playwright.Browser
+import com.microsoft.playwright.BrowserType
+import com.microsoft.playwright.Playwright
+import common.FileName
+import common.readFromFile
+import domain.News
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
-import service.ArticleService
 
 
 @OptIn(ExperimentalCli::class)
 class ArticleSubCommand:  Subcommand("article", "Article") {
 
-    lateinit var articleService: ArticleService
-
-    private fun init(){
-        articleService = ArticleService(ArticleRepository())
-    }
 
     override fun execute() {
-        init()
         while(true) {
             println("Enter the number of the article: ")
             val input = readLine()
             if (input == "end") {
                 break
             }
-            articleService.getNewsSelect(input?.toIntOrNull())
+            getNewsSelect(input?.toIntOrNull())
+        }
+    }
+
+    private fun getNewsSelect(no: Int?) {
+        val newsList = readFromFile<MutableList<News>>(FileName.NEWS_LIST.fileName)
+        if (no != null && no <= 10 && no > 0) {
+            fun newBrowser(playwright: Playwright): Browser = playwright
+                .chromium()
+                .launch(
+                    BrowserType
+                        .LaunchOptions()
+                        .setHeadless(false)
+                )
+
+            val newPage = newBrowser(Playwright.create()).newContext().newPage()
+
+            newPage.navigate(newsList.get(no-1).url)
+        } else {
+            println("Wrong Input, please try again between 1 to 10")
         }
     }
 }
