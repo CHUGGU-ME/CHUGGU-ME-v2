@@ -1,12 +1,12 @@
 package service
 
-import Repository.NewsRepository
+import common.FileName
+import common.readFromFile
+import domain.News
 
-class NewsService(
-    val newsRepository: NewsRepository,
-) {
+class NewsService {
     fun getNews() {
-        val resultNews = newsRepository.getNewsInfo()
+        val resultNews = readFromFile<MutableList<News>>(FileName.NEWS_LIST.fileName)
 
         for (news in resultNews) {
             println("${news.no} : ${news.title}")

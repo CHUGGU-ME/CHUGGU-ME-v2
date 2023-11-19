@@ -1,29 +1,47 @@
 package service
 
-import Repository.NewsRepository
-import player.PlayerRepository
 import com.microsoft.playwright.ElementHandle
 import com.microsoft.playwright.Page
+import com.microsoft.playwright.Route
 import com.microsoft.playwright.options.LoadState
+import common.FileName
 import common.PlaywrightUtil
+import common.readFromFile
+import common.saveToBin
 import domain.News
-import player.domain.PlayerCoreInfo
+import domain.PlayerCoreInfo
 import java.io.FileNotFoundException
 import java.util.*
 
-class UpdateService(
-    private val page: Page,
-    private val playerRepository: PlayerRepository,
-    private val newsRepository: NewsRepository,
-) {
+class UpdateService {
 
-    private fun loadPlayersPage() {
+    fun looadPlayersPage(page: Page) {
         page.navigate("https://www.premierleague.com/players")
-        PlaywrightUtil.firstStepOnPage(page)
-        PlaywrightUtil.ignoreDownImage(page)
+        page.waitForLoadState(LoadState.LOAD)
+        if (page.querySelector("#onetrust-banner-sdk > div").isVisible) {
+            page.querySelector("#onetrust-accept-btn-handler").click()
+        }
+        if(page.querySelector("#advertClose").isVisible){
+            page.querySelector("#advertClose").click()
+        }
+        page.route("**/*.{png,jpg,jpeg}") { route: Route -> route.abort() }
     }
 
-    private fun updatePlayerCoreInfo(){
+    fun updatePlayers(page: Page) {
+        looadPlayersPage(page)
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+        val pageSeason: String = page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current").innerText()
+
+        lateinit var savedSeason: String
+        try {
+            savedSeason  = readFromFile<String>(FileName.PLAYER_SEASON.fileName)
+        }catch (exception: FileNotFoundException){
+            savedSeason = ""
+        }
+        if(pageSeason.equals(savedSeason)) return
+        saveToBin(pageSeason, FileName.PLAYER_SEASON.fileName)
+
+
         page.keyboard().press("End")
         page.waitForTimeout(30000.0)
 
@@ -42,31 +60,10 @@ class UpdateService(
                 )
             )
         }
-        playerRepository.savePlayerCoreInfoListWithSortByPlayerName(savePlayerCoreInfoList)
+        saveToBin(savePlayerCoreInfoList, FileName.PLAYER_CORE_INFO_LIST.fileName)
     }
 
-    fun updatePlayerSeasonInfo(){
-        // TODO...
-    }
-
-    fun updatePlayer() {
-        loadPlayersPage()
-        page.waitForLoadState(LoadState.NETWORKIDLE)
-        val pageSeason: String = page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current").innerText()
-
-        lateinit var savedSeason: String
-        try {
-            savedSeason = playerRepository.getPlayerSeason()
-        }catch (exception: FileNotFoundException){
-            savedSeason = ""
-        }
-        if(pageSeason.equals(savedSeason)) return
-        playerRepository.savePlayerSeason(pageSeason)
-        updatePlayerCoreInfo()
-        updatePlayerSeasonInfo()
-    }
-
-    fun updateNews() {
+    fun updateNews(page: Page) {
         page.navigate("https://www.premierleague.com/news")
         page.waitForLoadState(LoadState.NETWORKIDLE)
 
@@ -84,7 +81,6 @@ class UpdateService(
             saveNewsList.add(saveNews)
             num += 1
         }
-
-        newsRepository.saveNewsInfo(saveNewsList)
+        saveToBin(saveNewsList, FileName.NEWS_LIST.fileName)
     }
 }

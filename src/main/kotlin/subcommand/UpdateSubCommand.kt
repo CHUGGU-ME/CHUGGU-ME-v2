@@ -8,8 +8,7 @@ import domain.News
 import domain.PlayerCoreInfo
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
-import java.io.FileNotFoundException
-import java.util.*
+import service.UpdateService
 
 @OptIn(ExperimentalCli::class)
 class UpdateSubCommand : Subcommand("update", "Update Data") {
@@ -17,23 +16,11 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
 
     lateinit var page: Page
 
-    fun looadPlayersPage() {
-        page.navigate("https://www.premierleague.com/players")
-        page.waitForLoadState(LoadState.LOAD)
-        if (page.querySelector("#onetrust-banner-sdk > div").isVisible) {
-            page.querySelector("#onetrust-accept-btn-handler").click()
-        }
-        if(page.querySelector("#advertClose").isVisible){
-            page.querySelector("#advertClose").click()
-        }
-        page.route("**/*.{png,jpg,jpeg}") { route: Route -> route.abort() }
-    }
-
-
     override fun execute() {
+        val updateService = UpdateService()
         page = PlaywrightUtil.getNewPlayWrightPage()
-        updatePlayers()
-        updateNews()
+        updateService.updatePlayers(page)
+        updateService.updateNews(page)
         println("update successfully done!")
     }
 
