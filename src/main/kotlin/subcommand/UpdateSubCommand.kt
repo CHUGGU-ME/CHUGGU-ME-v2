@@ -5,6 +5,7 @@ import com.microsoft.playwright.Page
 import com.microsoft.playwright.Route
 import com.microsoft.playwright.options.LoadState
 import common.FileName
+import common.PlaywrightUtil
 import common.saveToBin
 import domain.News
 import domain.PlayerCoreInfo
@@ -37,27 +38,6 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
         updateNews()
     }
 
-    private fun updateNews() {
-        page.navigate("https://www.premierleague.com/news")
-        page.waitForLoadState(LoadState.NETWORKIDLE)
-
-        val newsList = page.querySelectorAll("#mainContent > section > div.wrapper.col-12 > ul > li ")
-        val saveNewsList = mutableListOf<News>()
-        var num = 1
-
-        for (news in newsList) {
-            val title = news.querySelector(".media-thumbnail__title").innerText()
-            var url = page.querySelector("#mainContent > section > div.wrapper.col-12 > ul > li:nth-child($num) > a").getAttribute("href")
-
-            url = url.replace("//", "https:")
-
-            val saveNews = News(num, title, url)
-            saveNewsList.add(saveNews)
-            num += 1
-        }
-        saveToBin(saveNewsList, FileName.NEWS_LIST.fileName)
-    }
-
     private fun updatePlayers() {
         looadPlayersPage()
 
@@ -81,4 +61,26 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
         }
         saveToBin(savePlayerCoreInfoList, FileName.PLAYER_CORE_INFO_LIST.fileName)
     }
+
+    private fun updateNews() {
+        page.navigate("https://www.premierleague.com/news")
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+
+        val newsList = page.querySelectorAll("#mainContent > section > div.wrapper.col-12 > ul > li ")
+        val saveNewsList = mutableListOf<News>()
+        var num = 1
+
+        for (news in newsList) {
+            val title = news.querySelector(".media-thumbnail__title").innerText()
+            var url = page.querySelector("#mainContent > section > div.wrapper.col-12 > ul > li:nth-child($num) > a").getAttribute("href")
+
+            url = url.replace("//", "https:")
+
+            val saveNews = News(num, title, url)
+            saveNewsList.add(saveNews)
+            num += 1
+        }
+        saveToBin(saveNewsList, FileName.NEWS_LIST.fileName)
+    }
+
 }
