@@ -2,18 +2,19 @@ name: Release Workflow
 
 
 on:
-#  pull_request:
-  push:
+ pull_request:
+    types:
+      - closed
     branches:
       - main
-      
+
+# secret 변수 write 허용      
 permissions:
   contents: write
 
 jobs:
   deploy-job:
     runs-on: ubuntu-latest
-#    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/v')
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -29,7 +30,7 @@ jobs:
           echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> "$HOME"/.bashrc
         shell: bash    
 
-      - name: Prepare release
+      - name: Release to npm
         uses: actions/setup-node@v3
         with:
           registry-url: "https://registry.npmjs.org"
@@ -42,14 +43,7 @@ jobs:
           fi
           git config --global user.email "yoojin.an0@gmail.com"
           git config --global user.name "안유진"
-          yarn run release --yes --no-browse
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
-
-      - name: Release to npm
-        run: |
-          cd ./java-caller
           yarn shipjs trigger
         env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}

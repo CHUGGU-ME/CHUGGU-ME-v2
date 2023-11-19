@@ -46,11 +46,7 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
 
         }
 
-
-//        val file = File(Path.of("./","data.json").toUri())
-        updateNews()
-
-        /// ... ing..
+        saveToBin(savePlayerCoreInfoList, FileName.PLAYER_CORE_INFO_LIST.fileName)
     }
 
     private fun updateNews() {
