@@ -11,12 +11,17 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
 
 
     lateinit var page: Page
+    lateinit var updateService: UpdateService
+
+    private fun initService(){
+        page = PlaywrightUtil.getNewPlayWrightPage()
+        updateService = UpdateService(page)
+    }
 
     override fun execute() {
-        val updateService = UpdateService()
-        page = PlaywrightUtil.getNewPlayWrightPage()
-        updateService.updatePlayers(page)
-        updateService.updateNews(page)
+        initService()
+        updateService.updatePlayers()
+        updateService.updateNews()
         println("update successfully done!")
     }
 }

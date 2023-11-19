@@ -5,7 +5,6 @@ import com.microsoft.playwright.Page
 import com.microsoft.playwright.Route
 import com.microsoft.playwright.options.LoadState
 import common.FileName
-import common.PlaywrightUtil
 import common.readFromFile
 import common.saveToBin
 import domain.News
@@ -13,9 +12,11 @@ import domain.PlayerCoreInfo
 import java.io.FileNotFoundException
 import java.util.*
 
-class UpdateService {
+class UpdateService(
+    val page: Page
+) {
 
-    fun looadPlayersPage(page: Page) {
+    private fun loadPlayersPage() {
         page.navigate("https://www.premierleague.com/players")
         page.waitForLoadState(LoadState.LOAD)
         if (page.querySelector("#onetrust-banner-sdk > div").isVisible) {
@@ -27,8 +28,8 @@ class UpdateService {
         page.route("**/*.{png,jpg,jpeg}") { route: Route -> route.abort() }
     }
 
-    fun updatePlayers(page: Page) {
-        looadPlayersPage(page)
+    fun updatePlayers() {
+        loadPlayersPage()
         page.waitForLoadState(LoadState.NETWORKIDLE)
         val pageSeason: String = page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current").innerText()
 
@@ -60,10 +61,15 @@ class UpdateService {
                 )
             )
         }
-        saveToBin(savePlayerCoreInfoList, FileName.PLAYER_CORE_INFO_LIST.fileName)
+        saveToBin(
+            savePlayerCoreInfoList.sortedWith(
+                compareBy({ it.playerName },
+                    { it.playerName })
+            ), FileName.PLAYER_CORE_INFO_LIST.fileName
+        )
     }
 
-    fun updateNews(page: Page) {
+    fun updateNews() {
         page.navigate("https://www.premierleague.com/news")
         page.waitForLoadState(LoadState.NETWORKIDLE)
 
