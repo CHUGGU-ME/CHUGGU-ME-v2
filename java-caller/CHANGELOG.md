@@ -1,3 +1,7 @@
+## [1.0.14](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.13...v1.0.14) (2023-11-19)
+
+
+
 ## [1.0.13](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.12...v1.0.13) (2023-11-19)
 yarn shipjs trigger에서 npx shipjs trigger로 변경
 
