@@ -1,8 +1,7 @@
 package subcommand
 
-import com.microsoft.playwright.Page
+import com.microsoft.playwright.*
 import com.microsoft.playwright.options.LoadState
-import common.PlaywrightUtil
 import domain.Player
 import kotlinx.cli.ArgType
 import kotlinx.cli.ExperimentalCli
@@ -11,7 +10,17 @@ import kotlinx.cli.Subcommand
 @OptIn(ExperimentalCli::class)
 class PlayerSubCommand : Subcommand("player", "Player info") {
 
-    val page: Page = PlaywrightUtil.page
+    val playwright: Playwright = Playwright.create()
+    val browser: Browser = playwright
+        .chromium()
+        .launch(
+            BrowserType
+                .LaunchOptions()
+        )
+    val context: BrowserContext = browser.newContext()
+    val page: Page = context.newPage()
+
+
     val playerName by argument(ArgType.String, description = "Player Name")
 
     fun loadPlayersPage() {
@@ -21,6 +30,7 @@ class PlayerSubCommand : Subcommand("player", "Player info") {
             page.querySelector("#onetrust-accept-btn-handler").click()
         }
         page.waitForLoadState(LoadState.NETWORKIDLE)
+        page.route("**/*.{png,jpg,jpeg}") { route: Route -> route.abort() }
     }
 
 

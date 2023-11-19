@@ -1,12 +1,11 @@
 package subcommand
 
-import com.microsoft.playwright.ElementHandle
-import com.microsoft.playwright.Page
-import com.microsoft.playwright.Route
+import com.microsoft.playwright.*
 import com.microsoft.playwright.options.LoadState
-import common.PlaywrightUtil
+import common.FileName
 import common.saveToBin
 import domain.News
+import domain.PlayerCoreInfo
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
 import java.util.*
@@ -14,7 +13,16 @@ import java.util.*
 @OptIn(ExperimentalCli::class)
 class UpdateSubCommand : Subcommand("update", "Update Data") {
 
-    val page: Page = PlaywrightUtil.page
+    val playwright: Playwright = Playwright.create()
+    val browser: Browser = playwright
+        .chromium()
+        .launch(
+            BrowserType
+                .LaunchOptions()
+                .setHeadless(false)
+        )
+    val context: BrowserContext = browser.newContext()
+    val page: Page = context.newPage()
 
     fun looadPlayersPage() {
         page.navigate("https://www.premierleague.com/players")
@@ -22,35 +30,16 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
         if (page.querySelector("#onetrust-banner-sdk > div").isVisible) {
             page.querySelector("#onetrust-accept-btn-handler").click()
         }
-        page.waitForLoadState(LoadState.NETWORKIDLE)
+        if(page.querySelector("#advertClose").isVisible){
+            page.querySelector("#advertClose").click()
+        }
         page.route("**/*.{png,jpg,jpeg}") { route: Route -> route.abort() }
     }
 
 
     override fun execute() {
-        looadPlayersPage()
-
-        page.keyboard().press("End")
-        page.waitForTimeout(5000.0)
-
-        val players: List<ElementHandle> = page.querySelectorAll("tr.player")
-
-        val savePlayerData = linkedMapOf<String, String>()
-
-        players.forEach {
-            val urlInfo: String = it.querySelector("a.player__name").getAttribute("href").split("players/")[1].replace("/overview", "")
-
-            val keyword = urlInfo.split("/")[1].uppercase(Locale.getDefault())
-            val urlData: String = urlInfo
-            savePlayerData[keyword] = urlData
-
-        }
-
-
-//        val file = File(Path.of("./","data.json").toUri())
+        updatePlayers()
         updateNews()
-
-        /// ... ing..
     }
 
     private fun updateNews() {
@@ -71,6 +60,30 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
             saveNewsList.add(saveNews)
             num += 1
         }
-        saveToBin(saveNewsList, "newsList")
+        saveToBin(saveNewsList, FileName.NEWS_LIST.fileName)
+    }
+
+    private fun updatePlayers() {
+        looadPlayersPage()
+
+        page.keyboard().press("End")
+        page.waitForTimeout(30000.0)
+
+        val players: List<ElementHandle> = page.querySelectorAll("tr.player")
+
+        val savePlayerCoreInfoList = mutableListOf<PlayerCoreInfo>()
+
+        players.forEach {
+            val urlInfo: String = it.querySelector("a.player__name").getAttribute("href")
+                .split("players/")[1].replace("/overview", "")
+
+            savePlayerCoreInfoList.add(
+                PlayerCoreInfo(
+                    playerCode = urlInfo.split("/")[0],
+                    playerName = urlInfo.split("/")[1].uppercase(Locale.getDefault())
+                )
+            )
+        }
+        saveToBin(savePlayerCoreInfoList, FileName.PLAYER_CORE_INFO_LIST.fileName)
     }
 }
