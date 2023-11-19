@@ -1,20 +1,20 @@
 package service
 
+import Repository.NewsRepository
+import Repository.PlayerRepository
 import com.microsoft.playwright.ElementHandle
 import com.microsoft.playwright.Page
-import com.microsoft.playwright.Route
 import com.microsoft.playwright.options.LoadState
-import common.FileName
 import common.PlaywrightUtil
-import common.readFromFile
-import common.saveToBin
 import domain.News
 import domain.PlayerCoreInfo
 import java.io.FileNotFoundException
 import java.util.*
 
 class UpdateService(
-    val page: Page
+    private val page: Page,
+    private val playerRepository: PlayerRepository,
+    private val newsRepository: NewsRepository,
 ) {
 
     private fun loadPlayersPage() {
@@ -23,21 +23,7 @@ class UpdateService(
         PlaywrightUtil.ignoreDownImage(page)
     }
 
-    fun updatePlayers() {
-        loadPlayersPage()
-        page.waitForLoadState(LoadState.NETWORKIDLE)
-        val pageSeason: String = page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current").innerText()
-
-        lateinit var savedSeason: String
-        try {
-            savedSeason  = readFromFile<String>(FileName.PLAYER_SEASON.fileName)
-        }catch (exception: FileNotFoundException){
-            savedSeason = ""
-        }
-        if(pageSeason.equals(savedSeason)) return
-        saveToBin(pageSeason, FileName.PLAYER_SEASON.fileName)
-
-
+    private fun updatePlayerCoreInfo(){
         page.keyboard().press("End")
         page.waitForTimeout(30000.0)
 
@@ -56,12 +42,28 @@ class UpdateService(
                 )
             )
         }
-        saveToBin(
-            savePlayerCoreInfoList.sortedWith(
-                compareBy({ it.playerName },
-                    { it.playerName })
-            ), FileName.PLAYER_CORE_INFO_LIST.fileName
-        )
+        playerRepository.savePlayerCoreInfoListWithSortByPlayerName(savePlayerCoreInfoList)
+    }
+
+    fun updatePlayerSeasonInfo(){
+        // TODO...
+    }
+
+    fun updatePlayer() {
+        loadPlayersPage()
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+        val pageSeason: String = page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current").innerText()
+
+        lateinit var savedSeason: String
+        try {
+            savedSeason = playerRepository.getPlayerSeason()
+        }catch (exception: FileNotFoundException){
+            savedSeason = ""
+        }
+        if(pageSeason.equals(savedSeason)) return
+        playerRepository.savePlayerSeason(pageSeason)
+        updatePlayerCoreInfo()
+        updatePlayerSeasonInfo()
     }
 
     fun updateNews() {
@@ -82,6 +84,7 @@ class UpdateService(
             saveNewsList.add(saveNews)
             num += 1
         }
-        saveToBin(saveNewsList, FileName.NEWS_LIST.fileName)
+
+        newsRepository.saveNewsInfo(saveNewsList)
     }
 }
