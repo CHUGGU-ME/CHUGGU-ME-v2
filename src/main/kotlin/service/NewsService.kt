@@ -2,10 +2,9 @@ package service
 
 import Repository.NewsRepository
 
-class NewsService(
-    val newsRepository: NewsRepository,
-) {
+class NewsService {
     fun getNews() {
+        val newsRepository = NewsRepository()
         val resultNews = newsRepository.getNewsInfo()
         
         for (news in resultNews) {
