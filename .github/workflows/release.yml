@@ -3,16 +3,18 @@ name: Release Workflow
 
 on:
  pull_request:
+    types:
+      - closed
     branches:
       - main
-      
+
+# secret 변수 write 허용      
 permissions:
   contents: write
 
 jobs:
   deploy-job:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'releases/v')
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
