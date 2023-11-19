@@ -6,7 +6,8 @@ import kotlinx.serialization.encodeToByteArray
 import java.io.File
 
 inline fun <reified T> readFromFile(fileName: String): T {
-    val fileBytes = File(fileName).readBytes()
+    val filePath = "epl-data/$fileName"
+    val fileBytes = File(filePath).readBytes()
 
     return try {
         Cbor.decodeFromByteArray(fileBytes)
@@ -17,6 +18,7 @@ inline fun <reified T> readFromFile(fileName: String): T {
 
 inline fun <reified T> saveToBin(data: T, fileName: String) {
     val cborBytes = Cbor.encodeToByteArray(data)
-    File(fileName).writeBytes(cborBytes)
+    val filePath = "epl-data/$fileName"
+    File(filePath).writeBytes(cborBytes)
 }
 
