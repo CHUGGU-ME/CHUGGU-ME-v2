@@ -1,5 +1,5 @@
 ## [1.0.17](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.16...v1.0.17) (2023-11-19)
-
+🙏🏻
 
 
 ## [1.0.16](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.15...v1.0.16) (2023-11-19)
