@@ -1,4 +1,3 @@
-import common.FileName
 import common.fileioexample.subcommand.PersonSubCommand
 import kotlinx.cli.ArgParser
 import subcommand.*
@@ -14,7 +13,7 @@ fun main(args: Array<String>) {
         UpdateSubCommand(),
         GoalSubCommand(),
         PersonSubCommand(),
-        ArticleSubCommand()
+        ArticleSubCommand(),
         )
     parser.parse(args)
 
