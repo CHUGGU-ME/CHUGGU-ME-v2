@@ -32,9 +32,7 @@ jobs:
 
       - name: Release to npm
         uses: actions/setup-node@v3
-        with:
-          registry-url: "https://registry.npmjs.org"
-      - run: |
+        run: |
           cd ./java-caller
           if [ -f "yarn.lock" ]; then
           yarn install
@@ -44,6 +42,8 @@ jobs:
           git config --global user.email "yoojin.an0@gmail.com"
           git config --global user.name "안유진"
           yarn shipjs trigger
+        with:
+          registry-url: "https://registry.npmjs.org"
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
