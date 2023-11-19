@@ -13,5 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "shipjs": "0.26.3"
+  },
+  "publishConfig": {
+    "chuggume:registry": "https://registry.npmjs.org"
   }
 }
