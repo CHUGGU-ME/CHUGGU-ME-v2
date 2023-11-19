@@ -1,5 +1,6 @@
 ## [1.0.14](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.13...v1.0.14) (2023-11-19)
-
+yarn run release --yes --no-browse 추가,
+npx shipjs trigger에서 yarn shipjs trigger로 원복
 
 
 ## [1.0.13](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.12...v1.0.13) (2023-11-19)
