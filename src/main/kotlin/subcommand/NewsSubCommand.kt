@@ -1,5 +1,6 @@
 package subcommand
 
+import common.FileName
 import common.readFromFile
 import domain.News
 import kotlinx.cli.ExperimentalCli
@@ -9,7 +10,7 @@ import kotlinx.cli.Subcommand
 class NewsSubCommand : Subcommand("news", "News") {
     override fun execute() {
 
-        val resultNews = readFromFile<MutableList<News>>("newsList")
+        val resultNews = readFromFile<MutableList<News>>(FileName.NEWS_LIST.fileName)
         for (news in resultNews) {
             println("${news.no} : ${news.title}")
             println("url: ${news.url}")

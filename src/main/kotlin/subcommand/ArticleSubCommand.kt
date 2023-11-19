@@ -3,6 +3,7 @@ package subcommand
 import com.microsoft.playwright.Browser
 import com.microsoft.playwright.BrowserType
 import com.microsoft.playwright.Playwright
+import common.FileName
 import common.readFromFile
 import domain.News
 import kotlinx.cli.ExperimentalCli
@@ -12,7 +13,7 @@ import kotlinx.cli.Subcommand
 @OptIn(ExperimentalCli::class)
 class ArticleSubCommand:  Subcommand("article", "Article") {
 
-    val newsList = readFromFile<MutableList<News>>("newsList")
+
     override fun execute() {
         while(true) {
             println("Enter the number of the article: ")
@@ -25,6 +26,7 @@ class ArticleSubCommand:  Subcommand("article", "Article") {
     }
 
     private fun getNewsSelect(no: Int?) {
+        val newsList = readFromFile<MutableList<News>>(FileName.NEWS_LIST.fileName)
         if (no != null && no <= 10 && no > 0) {
             fun newBrowser(playwright: Playwright): Browser = playwright
                 .chromium()
