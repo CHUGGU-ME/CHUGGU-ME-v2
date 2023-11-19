@@ -1,5 +1,5 @@
 ## [1.0.13](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.12...v1.0.13) (2023-11-19)
-
+yarn shipjs trigger에서 npx shipjs trigger로 변경
 
 
 ## [1.0.12](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.11...v1.0.12) (2023-11-19)
