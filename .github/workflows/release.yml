@@ -31,7 +31,6 @@ jobs:
         shell: bash    
 
       - name: Release to npm
-        uses: actions/setup-node@v3
         run: |
           cd ./java-caller
           if [ -f "yarn.lock" ]; then
