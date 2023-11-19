@@ -1,6 +1,7 @@
 package common
 
 import com.microsoft.playwright.*
+import com.microsoft.playwright.options.LoadState
 
 class PlaywrightUtil {
     companion object{
@@ -11,11 +12,34 @@ class PlaywrightUtil {
                 .launch(
                     BrowserType
                         .LaunchOptions()
-                        .setHeadless(true)
+                        .setHeadless(false)
                 )
             val context: BrowserContext = browser.newContext()
             val page: Page = context.newPage()
             return page
+        }
+
+
+        /*
+        * allow cookie
+        * skip ad
+        * */
+        fun firstStepOnPage(page: Page){
+            page.waitForLoadState(LoadState.LOAD)
+            if (page.querySelector("#onetrust-banner-sdk > div").isVisible) {
+                page.querySelector("#onetrust-accept-btn-handler").click()
+            }
+            if(page.querySelector("#advertClose").isVisible){
+                page.querySelector("#advertClose").click()
+            }
+        }
+
+        /*
+        * ignore image
+        * */
+        fun ignoreDownImage(page: Page){
+            page.route("**/*.{png,jpg,jpeg}") { route: Route -> route.abort() }
+
         }
     }
 }
