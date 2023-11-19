@@ -1,3 +1,7 @@
+## [1.0.16](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.15...v1.0.16) (2023-11-19)
+
+
+
 ## [1.0.15](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.14...v1.0.15) (2023-11-19)
 진짜... 어이없어.... 빈 step은 왜 쓰냐구
 
