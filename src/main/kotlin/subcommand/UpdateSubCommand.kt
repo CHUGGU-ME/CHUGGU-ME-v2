@@ -38,6 +38,7 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
         page = PlaywrightUtil.getNewPlayWrightPage()
         updatePlayers()
         updateNews()
+        println("update successfully done!")
     }
 
     private fun updatePlayers() {
