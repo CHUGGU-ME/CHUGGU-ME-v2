@@ -1,6 +1,6 @@
 {
   "name": "java-runner",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "commonjs",
   "description": "",
   "main": "index.js",
