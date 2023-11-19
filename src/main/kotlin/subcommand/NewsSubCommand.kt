@@ -1,8 +1,5 @@
 package subcommand
 
-import common.FileName
-import common.readFromFile
-import domain.News
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
 import service.NewsService
