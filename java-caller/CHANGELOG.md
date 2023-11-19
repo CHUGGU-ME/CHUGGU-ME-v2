@@ -1,3 +1,7 @@
+## [1.0.12](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.11...v1.0.12) (2023-11-19)
+
+
+
 ## [1.0.11](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.10...v1.0.11) (2023-11-19)
 되어주겠니..?
 
