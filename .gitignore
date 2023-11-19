@@ -4,3 +4,4 @@ build
 .DS_Store
 java-caller/*
 CHUGGU-ME-v2
+epl-data/*
