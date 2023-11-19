@@ -14,6 +14,7 @@ fun main(args: Array<String>) {
         GoalSubCommand(),
         PersonSubCommand(),
         ArticleSubCommand(),
+        MOMSubCommand()
         )
     parser.parse(args)
 

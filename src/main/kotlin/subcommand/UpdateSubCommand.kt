@@ -6,6 +6,7 @@ import com.microsoft.playwright.options.LoadState
 import common.FileName
 import common.PlaywrightUtil
 import common.saveToBin
+import domain.ManOfTheMatchInfo
 import domain.News
 import domain.PlayerCoreInfo
 import kotlinx.cli.ExperimentalCli
@@ -82,4 +83,29 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
         saveToBin(saveNewsList, FileName.NEWS_LIST.fileName)
     }
 
+    private fun updateMomInfo() {
+        /*
+         * TODO:다 가져와서 리스트업.
+         * TODO:date,fexture,mom 제대로 가져오기(지금은 엉터리임)
+         * TODO:num 도 의미있게개수새는거 가져오기.
+         */
+
+        page.navigate("https://www.premierleague.com/man-of-the-match")
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+
+        val momList = page.querySelectorAll("#mainContent > div.tabbedContent")
+        val saveMomList = mutableListOf<ManOfTheMatchInfo>()
+        var num = 1
+
+        for (manOfTheMatchInfo in momList) {
+            val date =  page.querySelector("li:nth-child($num) > a").getAttribute("href")
+            val fexture =  page.querySelector("li:nth-child($num) > a").getAttribute("href")
+            val mom =  page.querySelector("li:nth-child($num) > a").getAttribute("href")
+
+            val saveMom = ManOfTheMatchInfo(date, fexture, mom)
+            saveMomList.add(saveMom)
+            num += 1
+        }
+        saveToBin(saveMomList, FileName.MAN_OF_THE_MATCH_INFO_LIST.fileName)
+    }
 }
