@@ -1,6 +1,7 @@
 package subcommand
 
 import com.microsoft.playwright.ElementHandle
+import com.microsoft.playwright.Page
 import com.microsoft.playwright.Route
 import com.microsoft.playwright.options.LoadState
 import common.FileName
@@ -16,8 +17,7 @@ import java.util.*
 class UpdateSubCommand : Subcommand("update", "Update Data") {
 
 
-    private val playwright = PlaywrightUtil()
-    private val page = playwright.playWrightUp()
+    lateinit var page: Page
 
     fun looadPlayersPage() {
         page.navigate("https://www.premierleague.com/players")
@@ -33,6 +33,7 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
 
 
     override fun execute() {
+        page = PlaywrightUtil.getNewPlayWrightPage()
         updatePlayers()
         updateNews()
     }
