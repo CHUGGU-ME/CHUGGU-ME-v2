@@ -30,8 +30,6 @@ jobs:
           echo 'export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"' >> "$HOME"/.bashrc
         shell: bash    
 
-      - name:
-
       - name: Prepare release
         uses: actions/setup-node@v3
         with:
