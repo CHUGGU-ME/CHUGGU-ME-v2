@@ -1,5 +1,5 @@
 ## [1.0.11](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.10...v1.0.11) (2023-11-19)
-
+되어주겠니..?
 
 
 ## [1.0.10](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.9...v1.0.10) (2023-11-19)
