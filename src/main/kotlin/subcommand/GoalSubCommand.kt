@@ -6,8 +6,16 @@ import service.GoalService
 
 @OptIn(ExperimentalCli::class)
 class GoalSubCommand : Subcommand("goal", "GOAL!!") {
+
+    lateinit var goalService: GoalService
+
+    private fun init(){
+        goalService = GoalService()
+    }
+
+
     override fun execute() {
-        val goalService = GoalService()
+        init()
         goalService.printlnGoal()
     }
 }
