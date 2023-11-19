@@ -6,11 +6,13 @@ import com.microsoft.playwright.Route
 import com.microsoft.playwright.options.LoadState
 import common.FileName
 import common.PlaywrightUtil
+import common.readFromFile
 import common.saveToBin
 import domain.News
 import domain.PlayerCoreInfo
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
+import java.io.FileNotFoundException
 import java.util.*
 
 @OptIn(ExperimentalCli::class)
@@ -40,6 +42,18 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
 
     private fun updatePlayers() {
         looadPlayersPage()
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+        val pageSeason: String = page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current").innerText()
+
+        lateinit var savedSeason: String
+        try {
+            savedSeason  = readFromFile<String>(FileName.PLAYER_SEASON.fileName)
+        }catch (exception: FileNotFoundException){
+            savedSeason = ""
+        }
+        if(pageSeason.equals(savedSeason)) return
+        saveToBin(pageSeason, FileName.PLAYER_SEASON.fileName)
+
 
         page.keyboard().press("End")
         page.waitForTimeout(30000.0)
