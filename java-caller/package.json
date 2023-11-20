@@ -1,10 +1,9 @@
 {
-  "name": "java-runner",
-  "version": "1.0.3",
+  "name": "chuggume",
+  "version": "1.0.19",
   "type": "commonjs",
   "description": "",
   "main": "index.js",
-  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --trace-warnings ./index.js",
@@ -14,5 +13,12 @@
   "license": "ISC",
   "devDependencies": {
     "shipjs": "0.26.3"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CHUGGU-ME/CHUGGU-ME-v2.git"
   }
 }
