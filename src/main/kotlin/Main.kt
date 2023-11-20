@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
         UpdateSubCommand(),
         GoalSubCommand(),
         PersonSubCommand(),
-        ArticleSubCommand()
+        ArticleSubCommand(),
         )
     parser.parse(args)
 
