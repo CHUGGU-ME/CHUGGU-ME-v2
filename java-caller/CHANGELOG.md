@@ -1,3 +1,7 @@
+## [1.0.19](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.18...v1.0.19) (2023-11-20)
+develop branch merge 후 배포 테스트
+
+
 ## [1.0.18](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.17...v1.0.18) (2023-11-19)
 🙏🏻🙏🏻🙏🏻
 
