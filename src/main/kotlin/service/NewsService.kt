@@ -7,7 +7,7 @@ class NewsService(
 ) {
     fun getNews() {
         val resultNews = newsRepository.getNewsInfo()
-        
+
         for (news in resultNews) {
             println("${news.no} : ${news.title}")
             println("url: ${news.url}")
