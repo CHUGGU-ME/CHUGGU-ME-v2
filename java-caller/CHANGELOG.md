@@ -1,3 +1,7 @@
+## [1.0.21](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.20...v1.0.21) (2023-11-20)
+git config --user, email 복구 및 시크릿변수 처리
+
+
 ## [1.0.20](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.0.19...v1.0.20) (2023-11-20)
 git config --user, email 삭제
 
