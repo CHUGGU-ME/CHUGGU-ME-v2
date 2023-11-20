@@ -1,15 +1,15 @@
 {
   "name": "chuggume",
-  "version": "1.1.1",
+  "version": "1.0.19",
   "type": "commonjs",
-  "description": "EPL info cli program",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --trace-warnings ./index.js",
     "release": "shipjs prepare"
   },
-  "author": "chu-ggu-me",
+  "author": "anew",
   "license": "ISC",
   "devDependencies": {
     "shipjs": "0.26.3"
