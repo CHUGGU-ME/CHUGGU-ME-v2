@@ -21,7 +21,7 @@ class PlayerService(
         }.toMutableList()
     }
 
-    fun getFullPlayerInfo(playerCoreInfo: PlayerCoreInfo): Player{
+    fun getPlayerInfo(playerCoreInfo: PlayerCoreInfo): Player{
         page.navigate(playerCoreInfo.toUrl())
         PlaywrightUtil.firstStepOnPage(page)
         PlaywrightUtil.ignoreDownImage(page)

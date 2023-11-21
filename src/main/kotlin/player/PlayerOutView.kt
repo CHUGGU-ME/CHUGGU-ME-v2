@@ -4,7 +4,7 @@ import player.domain.Player
 
 class PlayerOutView {
 
-    fun printPlayer(player: Player) {
+    fun print(player: Player) {
         val sb: StringBuilder = StringBuilder()
         sb.append("name: ${player.firstName} ${player.lastName}\n")
         sb.append("club: ${player.club}\n")

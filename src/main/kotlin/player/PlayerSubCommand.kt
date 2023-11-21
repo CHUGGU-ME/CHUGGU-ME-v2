@@ -28,7 +28,7 @@ class PlayerSubCommand : Subcommand("player", "Player info") {
         init()
         val searchedPlayer = playerService.searchPlayer(playerName)
         val chosedPlayer = playerInputView.choosePlayer(searchedPlayer)
-        val fullPlayerInfo = playerService.getFullPlayerInfo(chosedPlayer)
-        playerOutputView.printPlayer(fullPlayerInfo)
+        val fullPlayerInfo = playerService.getPlayerInfo(chosedPlayer)
+        playerOutputView.print(fullPlayerInfo)
     }
 }
