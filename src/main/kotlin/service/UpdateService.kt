@@ -1,13 +1,13 @@
 package service
 
 import Repository.NewsRepository
-import Repository.PlayerRepository
+import player.PlayerRepository
 import com.microsoft.playwright.ElementHandle
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.LoadState
 import common.PlaywrightUtil
 import domain.News
-import domain.PlayerCoreInfo
+import player.domain.PlayerCoreInfo
 import java.io.FileNotFoundException
 import java.util.*
 

@@ -1,7 +1,7 @@
 package subcommand
 
 import Repository.NewsRepository
-import Repository.PlayerRepository
+import player.PlayerRepository
 import com.microsoft.playwright.Page
 import common.PlaywrightUtil
 import kotlinx.cli.ExperimentalCli

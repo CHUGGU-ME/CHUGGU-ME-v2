@@ -1,4 +1,4 @@
-package domain
+package player.domain
 
 import com.microsoft.playwright.Page
 
@@ -13,10 +13,11 @@ data class Player(
     val height: String,
     val score: String,
     val assist: String,
+    val playerUrl: String,
 ){
 
     companion object{
-        fun of(page: Page): Player{
+        fun of(page: Page): Player {
             return Player(
                 firstName = page.querySelector(".player-header__name-first").innerText(),
                 lastName = page.querySelector(".player-header__name-last").innerText(),
@@ -28,6 +29,7 @@ data class Player(
                 height = page.querySelector("div.wrapper.hasFixedSidebar > div > div > div.player-info.u-hide-mob > section > div > div:nth-child(3) > div.player-info__info").innerText(),
                 score = page.querySelector("div.wrapper.hasFixedSidebar > nav > div > section:nth-child(2) > div > div:nth-child(2) > div.player-overview__info").innerText(),
                 assist = page.querySelector("div.wrapper.hasFixedSidebar > nav > div > section:nth-child(2) > div > div:nth-child(3) > div.player-overview__info").innerText(),
+                playerUrl = page.url(),
             )
         }
     }
@@ -43,6 +45,8 @@ data class Player(
         sb.append("nationality: ${nationality}\n")
         sb.append("score: ${score}\n")
         sb.append("assist: ${assist}\n")
+
+        sb.append("\n${playerUrl}")
         return sb.toString()
     }
 }
