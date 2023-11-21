@@ -34,19 +34,4 @@ data class Player(
         }
     }
 
-    override fun toString(): String{
-        val sb: StringBuilder = StringBuilder()
-        sb.append("name: ${firstName} ${lastName}\n")
-        sb.append("club: ${club}\n")
-        sb.append("position: ${position}\n")
-        sb.append("number: ${number}\n")
-        sb.append("height: ${height}\n")
-        sb.append("date of birth: ${dateOfBirth}\n")
-        sb.append("nationality: ${nationality}\n")
-        sb.append("score: ${score}\n")
-        sb.append("assist: ${assist}\n")
-
-        sb.append("\n${playerUrl}")
-        return sb.toString()
-    }
 }
