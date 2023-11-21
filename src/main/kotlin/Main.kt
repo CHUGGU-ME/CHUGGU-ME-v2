@@ -1,5 +1,6 @@
 import common.fileioexample.subcommand.PersonSubCommand
 import kotlinx.cli.ArgParser
+import player.PlayerSubCommand
 import subcommand.*
 import kotlin.system.exitProcess
 
