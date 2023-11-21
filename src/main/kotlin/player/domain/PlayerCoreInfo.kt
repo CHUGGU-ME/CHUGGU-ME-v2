@@ -1,4 +1,4 @@
-package domain
+package player.domain
 
 import kotlinx.serialization.Serializable
 

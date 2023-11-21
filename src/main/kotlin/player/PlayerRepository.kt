@@ -1,10 +1,10 @@
-package Repository
+package player
 
 import common.FileName
 import common.readFromFile
 import common.saveToBin
-import domain.Player
-import domain.PlayerCoreInfo
+import player.domain.Player
+import player.domain.PlayerCoreInfo
 
 class PlayerRepository {
 
