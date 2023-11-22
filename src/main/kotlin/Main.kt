@@ -15,6 +15,7 @@ fun main(args: Array<String>) {
         GoalSubCommand(),
         PersonSubCommand(),
         ArticleSubCommand(),
+        ScheduleSubCommand(),
         )
     parser.parse(args)
 

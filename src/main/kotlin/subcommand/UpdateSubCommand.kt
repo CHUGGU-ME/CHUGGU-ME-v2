@@ -2,6 +2,7 @@ package subcommand
 
 import Repository.NewsRepository
 import player.PlayerRepository
+import Repository.ScheduleRepository
 import com.microsoft.playwright.Page
 import common.PlaywrightUtil
 import kotlinx.cli.ExperimentalCli
@@ -21,6 +22,7 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
             page = page,
             playerRepository = PlayerRepository(),
             newsRepository = NewsRepository(),
+            scheduleRepository = ScheduleRepository(),
         )
     }
 
@@ -28,6 +30,7 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
         init()
         updateService.updatePlayer()
         updateService.updateNews()
+        updateService.updateSchedule()
         println("update successfully done!")
     }
 }
