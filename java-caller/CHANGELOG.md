@@ -1,3 +1,7 @@
+## [1.1.4](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.3...v1.1.4) (2023-11-22)
+
+
+
 ## [1.1.3](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.2...v1.1.3) (2023-11-22)
 CI 스크립트에서 test 제외 옵션 추가
 
