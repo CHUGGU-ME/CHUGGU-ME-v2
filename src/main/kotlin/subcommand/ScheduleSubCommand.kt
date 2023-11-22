@@ -6,7 +6,7 @@ import kotlinx.cli.Subcommand
 import service.ScheduleService
 
 @OptIn(ExperimentalCli::class)
-class ScheduleSubCommand: Subcommand("shedule", "Schedule") {
+class ScheduleSubCommand: Subcommand("schedule", "Matches info") {
     lateinit var scheduleService: ScheduleService
 
     private fun init() {
