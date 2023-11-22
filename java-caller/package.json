@@ -24,5 +24,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/CHUGGU-ME/CHUGGU-ME-v2.git"
+  },
+  "bin": "index.js",
+  "dependencies": {
+    "java-caller": "^3.1.1",
+    "yargs": "^17.7.2"
   }
 }
