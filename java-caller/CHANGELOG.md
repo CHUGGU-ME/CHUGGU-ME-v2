@@ -1,3 +1,7 @@
+## [1.1.6](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.5...v1.1.6) (2023-11-22)
+npx에서 사용할 수 있도록 수정
+
+
 ## [1.1.5](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.4...v1.1.5) (2023-11-22)
 chuggume 명령어 실행할 수 있도록 package.json에 실행 파일 위치 명시
 
