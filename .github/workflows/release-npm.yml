@@ -19,6 +19,26 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Deploy
+        run: |
+          mkdir -p ./java-caller/deploy
+          cp build/libs/*.jar ./java-caller/deploy
+        env:
+          JAVA_JAR_PATH: ./java-caller/deploy/*.jar
+
+      - name: Display JAR contents
+        run: unzip -l $JAVA_JAR_PATH
+        if: success()
+
       - name: Install Node.js and Yarn
         uses: actions/setup-node@v3
         with:
@@ -47,3 +67,4 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          JAVA_JAR_PATH: ${{ env.JAVA_JAR_PATH }}
