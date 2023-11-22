@@ -4,9 +4,6 @@
   "type": "commonjs",
   "description": "EPL info cli program",
   "main": "index.js",
-  "bin": {
-    "chuggume": "./bin/chuggume"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --trace-warnings ./index.js",
