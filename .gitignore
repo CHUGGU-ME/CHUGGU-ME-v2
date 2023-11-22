@@ -2,6 +2,5 @@
 .idea
 build
 .DS_Store
-java-caller/*
-CHUGGU-ME-v2
-epl-data/*
+java-caller/.env
+java-caller/node_modules
