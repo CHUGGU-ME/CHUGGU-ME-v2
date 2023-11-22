@@ -5,4 +5,5 @@ enum class FileName(val fileName:String) {
     PLAYER_CORE_INFO_LIST("playerCoreInfoList"),
     PLAYER_LIST("playerList"),
     PLAYER_SEASON("playerSeason"),
+    SCHEDULE_LIST("scheduleList")
 }

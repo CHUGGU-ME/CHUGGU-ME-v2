@@ -2,10 +2,12 @@ package service
 
 import Repository.NewsRepository
 import Repository.PlayerRepository
+import Repository.ScheduleRepository
 import com.microsoft.playwright.ElementHandle
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.LoadState
 import common.PlaywrightUtil
+import domain.Fixture
 import domain.News
 import domain.PlayerCoreInfo
 import java.io.FileNotFoundException
@@ -15,6 +17,7 @@ class UpdateService(
     private val page: Page,
     private val playerRepository: PlayerRepository,
     private val newsRepository: NewsRepository,
+    private val scheduleRepository: ScheduleRepository
 ) {
 
     private fun loadPlayersPage() {
@@ -23,7 +26,7 @@ class UpdateService(
         PlaywrightUtil.ignoreDownImage(page)
     }
 
-    private fun updatePlayerCoreInfo(){
+    private fun updatePlayerCoreInfo() {
         page.keyboard().press("End")
         page.waitForTimeout(30000.0)
 
@@ -45,22 +48,24 @@ class UpdateService(
         playerRepository.savePlayerCoreInfoListWithSortByPlayerName(savePlayerCoreInfoList)
     }
 
-    fun updatePlayerSeasonInfo(){
+    fun updatePlayerSeasonInfo() {
         // TODO...
     }
 
     fun updatePlayer() {
         loadPlayersPage()
         page.waitForLoadState(LoadState.NETWORKIDLE)
-        val pageSeason: String = page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current").innerText()
+        val pageSeason: String =
+            page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current")
+                .innerText()
 
         lateinit var savedSeason: String
         try {
             savedSeason = playerRepository.getPlayerSeason()
-        }catch (exception: FileNotFoundException){
+        } catch (exception: FileNotFoundException) {
             savedSeason = ""
         }
-        if(pageSeason.equals(savedSeason)) return
+        if (pageSeason.equals(savedSeason)) return
         playerRepository.savePlayerSeason(pageSeason)
         updatePlayerCoreInfo()
         updatePlayerSeasonInfo()
@@ -76,7 +81,8 @@ class UpdateService(
 
         for (news in newsList) {
             val title = news.querySelector(".media-thumbnail__title").innerText()
-            var url = page.querySelector("#mainContent > section > div.wrapper.col-12 > ul > li:nth-child($num) > a").getAttribute("href")
+            var url = page.querySelector("#mainContent > section > div.wrapper.col-12 > ul > li:nth-child($num) > a")
+                .getAttribute("href")
 
             url = url.replace("//", "https:")
 
@@ -86,5 +92,32 @@ class UpdateService(
         }
 
         newsRepository.saveNewsInfo(saveNewsList)
+    }
+
+    fun updateSchedule() {
+        page.navigate("https://www.premierleague.com/fixtures")
+        PlaywrightUtil.firstStepOnPage(page)
+        PlaywrightUtil.ignoreDownImage(page)
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+
+        val dateContainers = page.querySelectorAll("div.fixtures__date-container")
+        val updatedSchedule = mutableListOf<Fixture>()
+        var num = 1
+
+        for (oneDayContainer in dateContainers) {
+            val fixtures = oneDayContainer.querySelectorAll(".match-fixture")
+            for (fixture in fixtures) {
+                val date = oneDayContainer.querySelector(".fixtures__date.fixtures__date--short").innerText()
+                val time = fixture.querySelector("time").innerText()
+                val home = fixture.getAttribute("data-home")
+                val away = fixture.getAttribute("data-away")
+                val venue = fixture.getAttribute("data-venue")
+
+                val updatedFixture = Fixture(num, date, time, home, away, venue)
+                updatedSchedule.add(updatedFixture)
+                num += 1
+            }
+        }
+        scheduleRepository.save(updatedSchedule)
     }
 }
