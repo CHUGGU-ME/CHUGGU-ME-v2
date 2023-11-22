@@ -45,11 +45,9 @@ jobs:
         run: |
           mkdir -p ./java-caller/deploy
           cp build/libs/*.jar ./java-caller/deploy
-        env:
-          JAVA_JAR_PATH: ./java-caller/deploy/*.jar
 
       - name: Display JAR contents
-        run: unzip -l $JAVA_JAR_PATH
+        run: unzip -l ./java-caller/deploy/*.jar
         if: success()
 
       - name: Install Node.js and Yarn
