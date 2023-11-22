@@ -1,3 +1,5 @@
+import help.HelpSubCommand
+import authors.AuthorSubCommand
 import common.fileioexample.subcommand.PersonSubCommand
 import kotlinx.cli.ArgParser
 import player.PlayerSubCommand
@@ -16,6 +18,8 @@ fun main(args: Array<String>) {
         PersonSubCommand(),
         ArticleSubCommand(),
         ScheduleSubCommand(),
+        HelpSubCommand(),
+        AuthorSubCommand()
         )
     parser.parse(args)
 
