@@ -1,3 +1,7 @@
+## [1.1.5](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.4...v1.1.5) (2023-11-22)
+chuggume 명령어 실행할 수 있도록 package.json에 실행 파일 위치 명시
+
+
 ## [1.1.4](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.3...v1.1.4) (2023-11-22)
 CI 스크립트에서 jar파일 경로 명시
 
