@@ -26,5 +26,9 @@
   "dependencies": {
     "java-caller": "^3.1.1",
     "yargs": "^17.7.2"
-  }
+  },
+  "file": [
+    "deploy/CHUGGU-ME-v2.jar",
+    "index.js"
+  ]
 }

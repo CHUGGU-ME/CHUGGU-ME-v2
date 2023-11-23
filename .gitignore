@@ -6,3 +6,4 @@ java-caller/.env
 java-caller/node_modules
 CHUGGU-ME-v2
 epl-data/*
+java-caller/deploy
