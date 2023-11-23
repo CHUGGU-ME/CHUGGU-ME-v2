@@ -28,7 +28,7 @@ class UpdateService(
 
     private fun updatePlayerCoreInfo() {
         page.keyboard().press("End")
-        page.waitForTimeout(30000.0)
+        page.waitForTimeout(60000.0)
 
         val players: List<ElementHandle> = page.querySelectorAll("tr.player")
 
