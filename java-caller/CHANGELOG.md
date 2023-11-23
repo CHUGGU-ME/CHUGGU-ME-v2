@@ -1,3 +1,7 @@
+## [1.1.7](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.6...v1.1.7) (2023-11-23)
+jar file 경로 지정 
+
+
 ## [1.1.6](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.5...v1.1.6) (2023-11-22)
 npx에서 사용할 수 있도록 수정
 
