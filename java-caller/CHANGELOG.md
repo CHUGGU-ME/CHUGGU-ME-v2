@@ -1,5 +1,5 @@
 ## [1.1.12](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.11...v1.1.12) (2023-11-24)
-
+명령어 추가: help, author
 
 
 ## [1.1.10](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.9...v1.1.10) (2023-11-24)
