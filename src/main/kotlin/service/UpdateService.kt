@@ -101,51 +101,52 @@ class UpdateService(
         while (!page.isVisible("div.fixtures__date-container") && !page.isVisible(".match-fixture")) {
             page.waitForTimeout(100.0)
         }
-        fun updateMomInfo() {
-            page.navigate("https://www.premierleague.com/man-of-the-match")
-            page.waitForLoadState(LoadState.NETWORKIDLE)
+    }
 
-            //val momList = page.querySelectorAll("li.kotm-match-list__row.js-kotm-row")
-            val sMominfoList = mutableListOf<MomInfo>()
-            val list = page.querySelectorAll(".kotm-match-list__row")
-            while (!page.isVisible("li.kotm-match-list__row.js-kotm-row") && !page.isVisible(".kotm-match-list__row") && !page.isVisible(
-                    "onetrust-accept-btn-handler"
-                )
-            ) {
+    fun updateMomInfo() {
+        page.navigate("https://www.premierleague.com/man-of-the-match")
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+
+        //val momList = page.querySelectorAll("li.kotm-match-list__row.js-kotm-row")
+        val sMominfoList = mutableListOf<MomInfo>()
+        val list = page.querySelectorAll(".kotm-match-list__row")
+        while (!page.isVisible("li.kotm-match-list__row.js-kotm-row") && !page.isVisible(".kotm-match-list__row") && !page.isVisible(
+                "onetrust-accept-btn-handler"
+            )
+        ) {
+            page.waitForTimeout(100.0)
+        }
+
+        println("#list = ${list.size}")
+//        val blockScreenElement = page.querySelector("#onetrust-accept-btn-handler")
+//        blockScreenElement.click()
+
+        list.forEach { momElement ->
+            val dateElement = momElement.querySelector(".kotm-match-list__time--small")
+            val matchElement = momElement.querySelector(".kotm-match-list__fixture")
+            val playerNameElement = momElement.querySelector(".kotm-match-list__player-name")
+
+            momElement.click()
+            while (!page.isVisible("div.kotm-results__fixture-stats > div:nth-child(1) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")) {
                 page.waitForTimeout(100.0)
             }
-
-            println("#list = ${list.size}")
-            val blockScreenElement = page.querySelector("#onetrust-accept-btn-handler")
-            blockScreenElement.click()
-
-            list.forEach { momElement ->
-                val dateElement = momElement.querySelector(".kotm-match-list__time--small")
-                val matchElement = momElement.querySelector(".kotm-match-list__fixture")
-                val playerNameElement = momElement.querySelector(".kotm-match-list__player-name")
-
-                momElement.click()
-                while (!page.isVisible("div.kotm-results__fixture-stats > div:nth-child(1) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")) {
-                    page.waitForTimeout(100.0)
-                }
-                val goalElement =
-                    page.querySelector("div.kotm-results__fixture-stats > div:nth-child(1) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")
-                val assistElement =
-                    page.querySelector("div.kotm-results__fixture-stats > div:nth-child(2) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")
-                sMominfoList.add(
-                    MomInfo(
-                        matchDate = dateElement.innerText(),
-                        match = matchElement.innerText(),
-                        playerName = playerNameElement.innerText(),
-                        goals = goalElement.innerText(),
-                        assist = assistElement.innerText(),
-                    )
+            val goalElement =
+                page.querySelector("div.kotm-results__fixture-stats > div:nth-child(1) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")
+            val assistElement =
+                page.querySelector("div.kotm-results__fixture-stats > div:nth-child(2) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")
+            sMominfoList.add(
+                MomInfo(
+                    matchDate = dateElement.innerText(),
+                    match = matchElement.innerText(),
+                    playerName = playerNameElement.innerText(),
+                    goals = goalElement.innerText(),
+                    assist = assistElement.innerText(),
                 )
-                val closeElement = page.querySelector("#mainContent > section > div > button")
-                closeElement.click()
+            )
+            val closeElement = page.querySelector("#mainContent > section > div > button")
+            closeElement.click()
 
-            }
-            momRepository.saveMomInfoList(sMominfoList.toList())
         }
+        momRepository.saveMomInfoList(sMominfoList.toList())
     }
 }

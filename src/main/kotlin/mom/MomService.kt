@@ -8,26 +8,25 @@ class MomService(
     private val momRepository: MomRepository,
 ) {
 
-    fun searchMomInfo(matchSeason: String, matchDate: String, matchTeam:String):MomInfo {
+    fun searchMomInfo(matchSeason: String, matchDate: String, matchTeam: String): MomInfo? {
         println(matchSeason)
         println(matchDate)
         println(matchTeam)
 
-        val momInfo: List<MomInfo> = momRepository.getMomInfoList()
-         println("matchDate : " + momInfo[0].matchDate)
-        println("fixture : " + momInfo[0].match)
-
-        return MomInfo.of(page)
+        val momInfos = momRepository.getMomInfoList()
+        val foundMomInfo =
+            momInfos.find { momInfo -> momInfo.matchDate == matchDate && momInfo.match.contains(matchTeam) }
+        return foundMomInfo
     }
 }
 
-        /*return momInfoList.filter {
+/*return momInfoList.filter {
 
-            /*//TODO: matchSeason/matchDate/matchTeam
-            *it.matchSeason.startsWith(
-            *    playerName.uppercase
-            *        Locale.getDefault()
-            *    )
+    /*//TODO: matchSeason/matchDate/matchTeam
+    *it.matchSeason.startsWith(
+    *    playerName.uppercase
+    *        Locale.getDefault()
+    *    )
 
 
-        }.toMutableList()*/
+}.toMutableList()*/

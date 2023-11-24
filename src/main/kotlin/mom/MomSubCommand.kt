@@ -30,7 +30,6 @@ class MomSubCommand : Subcommand("mom", "Man of the Match info") {
     override fun execute() {
         init()
         val searchedMomInfo = momService.searchMomInfo(matchSeason, matchDate, matchTeam)
-        //val fullMomInfo = momService.getFullPlayerInfo(searchedPlayer)
-        //momInfoOutView.printMomInfo(searchedMomInfo)
+        momInfoOutView.printMomInfo(searchedMomInfo)
     }
 }
