@@ -1,3 +1,7 @@
+## [1.1.8](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.7...v1.1.8) (2023-11-24)
+
+
+
 ## [1.1.7](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.6...v1.1.7) (2023-11-23)
 jar file 경로 지정 
 
