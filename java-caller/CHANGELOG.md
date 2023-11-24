@@ -1,3 +1,7 @@
+## [1.1.13](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.12...v1.1.13) (2023-11-24)
+
+
+
 ## [1.1.12](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.11...v1.1.12) (2023-11-24)
 명령어 추가: help, author
 
