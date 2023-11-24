@@ -96,9 +96,7 @@ class UpdateService(
 
     fun updateSchedule() {
         page.navigate("https://www.premierleague.com/fixtures")
-        PlaywrightUtil.firstStepOnPage(page)
-        PlaywrightUtil.ignoreDownImage(page)
-        page.waitForLoadState(LoadState.NETWORKIDLE)
+        page.waitForTimeout(5000.0)
 
         val dateContainers = page.querySelectorAll("div.fixtures__date-container")
         val updatedSchedule = mutableListOf<Fixture>()

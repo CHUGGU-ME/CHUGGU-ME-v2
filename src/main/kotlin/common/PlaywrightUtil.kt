@@ -26,10 +26,10 @@ class PlaywrightUtil {
         * */
         fun firstStepOnPage(page: Page){
             page.waitForLoadState(LoadState.LOAD)
-            if (page.querySelector("#onetrust-banner-sdk > div").isVisible) {
+            if (page.querySelector("#onetrust-banner-sdk > div") != null) {
                 page.querySelector("#onetrust-accept-btn-handler").click()
             }
-            if(page.querySelector("#advertClose").isVisible){
+            if(page.querySelector("#advertClose") != null){
                 page.querySelector("#advertClose").click()
             }
         }
