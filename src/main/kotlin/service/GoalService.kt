@@ -1700,6 +1700,7 @@ class GoalService {
         arr.add(w)
         arr.add(x)
         arr.add(y)
+        arr.add(z)
         arr.add(aa)
         arr.add(ab)
         arr.add(ac)
@@ -1772,7 +1773,7 @@ class GoalService {
 
         for (line in arr) {
             for (art in line) {
-
+                println(enters)
                 println(art)
             }
             Thread.sleep(200)
