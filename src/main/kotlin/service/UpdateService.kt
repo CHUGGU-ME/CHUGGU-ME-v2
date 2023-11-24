@@ -2,13 +2,13 @@ package service
 
 import Repository.NewsRepository
 import player.PlayerRepository
-import Repository.ScheduleRepository
 import com.microsoft.playwright.ElementHandle
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.LoadState
 import common.PlaywrightUtil
-import domain.Fixture
 import domain.News
+import mom.MomRepository
+import mom.domain.MomInfo
 import player.domain.PlayerCoreInfo
 import java.io.FileNotFoundException
 import java.util.*
@@ -17,19 +17,18 @@ class UpdateService(
     private val page: Page,
     private val playerRepository: PlayerRepository,
     private val newsRepository: NewsRepository,
-    private val scheduleRepository: ScheduleRepository
+    private val momRepository: MomRepository,
 ) {
 
-
-    fun initUpdateService(){
-        page.navigate("https://www.premierleague.com")
+    private fun loadPlayersPage() {
+        page.navigate("https://www.premierleague.com/players")
         PlaywrightUtil.firstStepOnPage(page)
         PlaywrightUtil.ignoreDownImage(page)
     }
 
     private fun updatePlayerCoreInfo() {
         page.keyboard().press("End")
-        page.waitForTimeout(40000.0)
+        page.waitForTimeout(30000.0)
 
         val players: List<ElementHandle> = page.querySelectorAll("tr.player")
 
@@ -54,8 +53,8 @@ class UpdateService(
     }
 
     fun updatePlayer() {
-        page.navigate("https://www.premierleague.com/players")
-        page.waitForTimeout(10000.0)
+        loadPlayersPage()
+        page.waitForLoadState(LoadState.NETWORKIDLE)
         val pageSeason: String =
             page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current")
                 .innerText()
@@ -74,16 +73,18 @@ class UpdateService(
 
     fun updateNews() {
         page.navigate("https://www.premierleague.com/news")
-        page.waitForTimeout(10000.0)
+        page.waitForLoadState(LoadState.NETWORKIDLE)
 
-        val newsList = page.querySelectorAll("#mainContent > section > div.wrapper.col-12 > ul > li ")
+        val newsList =
+            page.querySelectorAll("#mainContent > section > div.wrapper.col-12 > ul > li ")
         val saveNewsList = mutableListOf<News>()
         var num = 1
 
         for (news in newsList) {
             val title = news.querySelector(".media-thumbnail__title").innerText()
-            var url = page.querySelector("#mainContent > section > div.wrapper.col-12 > ul > li:nth-child($num) > a")
-                .getAttribute("href")
+            var url =
+                page.querySelector("#mainContent > section > div.wrapper.col-12 > ul > li:nth-child($num) > a")
+                    .getAttribute("href")
 
             url = url.replace("//", "https:")
 
@@ -95,28 +96,50 @@ class UpdateService(
         newsRepository.saveNewsInfo(saveNewsList)
     }
 
-    fun updateSchedule() {
-        page.navigate("https://www.premierleague.com/fixtures")
-        page.waitForTimeout(10000.0)
+    fun updateMomInfo() {
+        page.navigate("https://www.premierleague.com/man-of-the-match")
+        page.waitForLoadState(LoadState.NETWORKIDLE)
 
-        val dateContainers = page.querySelectorAll("div.fixtures__date-container")
-        val updatedSchedule = mutableListOf<Fixture>()
-        var num = 1
-
-        for (oneDayContainer in dateContainers) {
-            val fixtures = oneDayContainer.querySelectorAll(".match-fixture")
-            for (fixture in fixtures) {
-                val date = oneDayContainer.querySelector(".fixtures__date.fixtures__date--short").innerText()
-                val time = fixture.querySelector("time").innerText()
-                val home = fixture.getAttribute("data-home")
-                val away = fixture.getAttribute("data-away")
-                val venue = fixture.getAttribute("data-venue")
-
-                val updatedFixture = Fixture(num, date, time, home, away, venue)
-                updatedSchedule.add(updatedFixture)
-                num += 1
-            }
+        //val momList = page.querySelectorAll("li.kotm-match-list__row.js-kotm-row")
+        val sMominfoList = mutableListOf<MomInfo>()
+        val list = page.querySelectorAll(".kotm-match-list__row")
+        while (!page.isVisible("li.kotm-match-list__row.js-kotm-row") && !page.isVisible(".kotm-match-list__row") && !page.isVisible(
+                "onetrust-accept-btn-handler"
+            )
+        ) {
+            page.waitForTimeout(100.0)
         }
-        scheduleRepository.save(updatedSchedule)
+
+        println("#list = ${list.size}")
+        val blockScreenElement = page.querySelector("#onetrust-accept-btn-handler")
+        blockScreenElement.click()
+
+        list.forEach { momElement ->
+            val dateElement = momElement.querySelector(".kotm-match-list__time--small")
+            val matchElement = momElement.querySelector(".kotm-match-list__fixture")
+            val playerNameElement = momElement.querySelector(".kotm-match-list__player-name")
+
+            momElement.click()
+            while (!page.isVisible("div.kotm-results__fixture-stats > div:nth-child(1) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")) {
+                page.waitForTimeout(100.0)
+            }
+            val goalElement =
+                page.querySelector("div.kotm-results__fixture-stats > div:nth-child(1) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")
+            val assistElement =
+                page.querySelector("div.kotm-results__fixture-stats > div:nth-child(2) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")
+            sMominfoList.add(
+                MomInfo(
+                    matchDate = dateElement.innerText(),
+                    match = matchElement.innerText(),
+                    playerName = playerNameElement.innerText(),
+                    goals = goalElement.innerText(),
+                    assist = assistElement.innerText(),
+                )
+            )
+            val closeElement = page.querySelector("#mainContent > section > div > button")
+            closeElement.click()
+
+        }
+        momRepository.saveMomInfoList(sMominfoList.toList())
     }
 }
