@@ -7,10 +7,8 @@ class ScheduleService(
 ) {
     fun printSchedule() {
         val schedule = scheduleRepository.get()
-
         for (fixture in schedule) {
             println("${fixture.no} | date: ${fixture.date}, time: ${fixture.time}, match: ${fixture.home} vs ${fixture.away}, venue: ${fixture.venue}")
-            break
         }
     }
 }

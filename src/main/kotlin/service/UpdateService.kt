@@ -97,7 +97,9 @@ class UpdateService(
 
     fun updateSchedule() {
         page.navigate("https://www.premierleague.com/fixtures")
-        page.waitForTimeout(10000.0)
+        while(!page.isVisible("div.fixtures__date-container") && !page.isVisible(".match-fixture")) {
+            page.waitForTimeout(100.0)
+        }
 
         val dateContainers = page.querySelectorAll("div.fixtures__date-container")
         val updatedSchedule = mutableListOf<Fixture>()

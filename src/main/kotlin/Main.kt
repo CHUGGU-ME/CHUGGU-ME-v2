@@ -9,7 +9,6 @@ import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     val parser = ArgParser("chuggue-me")
-
     parser.subcommands(
         NewsSubCommand(),
         PlayerSubCommand(),
