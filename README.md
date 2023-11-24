@@ -192,26 +192,29 @@ cd 추가 필요
 
 ## 📌 Feature offered
 ### EPL command words
-- EndPoint: GET ‘/favorite?userId=’
-</br>Function: 사용자의 모든 즐겨찾기를 조회합니다
+- Command: chuggume help
+</br>Function: 사용 가능한 명령어와 설명을 확인할 수 있습니다.
 
-- EndPoint: GET ‘/{favoriteId}?userId=’
-</br>Function: 사용자가 해당 즐겨찾기를 조회합니다.
+- Command: chuggume article
+</br>Function: EPL 뉴스 번호를 입력 하여 해당 뉴스를 새창에 띄웁니다.
 
-- EndPoint: POST ‘/favorite?userId=’
-</br>Function: 사용자가 즐겨찾기를 추가합니다.
+- Command: chuggume news
+</br>Function: EPL 뉴스 탑10의 제목, URL을 확인 합니다.
 
-- EndPoint: PUT ‘/{favoriteId}?userId’
-</br>Function: 사용자가 해당 즐겨찾기를 수정합니다.
+- Command: chuggume goal
+</br>Function: ascii-art를 사용한 간단한 애니메이션!
 
-- EndPoint: DELETE ‘/{favoriteId}?userId’
-</br>Function: 사용자가 해당 즐겨찾기를 삭제합니다.
+- Command: chuggume update
+</br>Function: EPL 선수 목록, 리그 성적 등의 정보를 최신으로 업데이트 합니다.
 
-- EndPoint: DELETE ‘/delete-multi?userId’
-</br>Function: 사용자가 여러개의 즐겨찾기를 삭제합니다.
+- Command: chuggume schedule
+</br>Function: EPL 경기 일정을 조회 합니다.
 
-- EndPoint: DELETE ‘/delete-all?userId’
-</br>Function: 사용자의 모든 즐겨찾기를 삭제합니다.
+- Command: chuggume player
+</br>Function: EPL 선수 이름을 입력 하여 선수별 상세 정보를 조회할 수 있습니다.
+
+- Command: chuggume mom
+</br>Function: 시즌, 경기 날짜, 해당 팀의 최고의 선수를 조회할 수 있습니다.
 
 
 ## 📑 Architecture
