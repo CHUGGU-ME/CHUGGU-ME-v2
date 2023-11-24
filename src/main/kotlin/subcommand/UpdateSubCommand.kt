@@ -7,6 +7,7 @@ import com.microsoft.playwright.Page
 import common.PlaywrightUtil
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
+import mom.MomRepository
 import service.UpdateService
 
 @OptIn(ExperimentalCli::class)
@@ -22,15 +23,15 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
             page = page,
             playerRepository = PlayerRepository(),
             newsRepository = NewsRepository(),
-            scheduleRepository = ScheduleRepository(),
+            momRepository = MomRepository(),
         )
     }
 
     override fun execute() {
         init()
-        updateService.initUpdateService()
         updateService.updatePlayer()
         updateService.updateNews()
+        updateService.updateMomInfo()
         updateService.updateSchedule()
         println("update successfully done!")
     }
