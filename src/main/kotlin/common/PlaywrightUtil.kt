@@ -12,7 +12,7 @@ class PlaywrightUtil {
                 .launch(
                     BrowserType
                         .LaunchOptions()
-                        .setHeadless(false)
+                        .setHeadless(true)
                 )
             val context: BrowserContext = browser.newContext()
             val page: Page = context.newPage()

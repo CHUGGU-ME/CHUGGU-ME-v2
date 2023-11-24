@@ -19,4 +19,5 @@ class PlayerOutView {
          
         println(sb.toString())
     }
+
 }

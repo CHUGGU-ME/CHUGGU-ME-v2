@@ -10,6 +10,7 @@ class PlayerService(
     private val page: Page,
     private val playerRepository: PlayerRepository,
 ) {
+
     fun searchPlayer(playerName: String):MutableList<PlayerCoreInfo> {
         val playerCoreInfoList: MutableList<PlayerCoreInfo> = playerRepository.getPlayerCoreInfoList()
         return playerCoreInfoList.filter {
