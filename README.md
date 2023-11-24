@@ -220,5 +220,5 @@ cd 추가 필요
 
 ## 🤝Co-operation with JIRA
 #### [ Jira를 활용하여 팀별 회의 후에도 애자일 방법론에 따라 신속한 기능 구현 및 변경을 진행하였어요 ]
-![image](https://github.com/KATJ-HH2/katj/assets/87371627/71ce3ea4-bfe6-4daa-a686-1d1694097120)
+![image](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/assets/87371627/3f4a85eb-40b1-4adb-9cd4-1bf14c6c900c)
 
