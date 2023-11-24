@@ -1,6 +1,8 @@
 package service
 
+
 class GoalService {
+
     fun printlnGoal() {
         val gLetter = mutableListOf(
             "  GGGG     OOOO        A      L         !!     !!  ",
@@ -16,6 +18,7 @@ class GoalService {
     }
     var arr: MutableList<MutableList<String>> = mutableListOf()
     fun printlnIdiot() {
+
         val a = mutableListOf(
                 "                                                                             \$##:                   \n" +
                 "                                                                           -@@@@@*                  \n" +
@@ -1765,35 +1768,14 @@ class GoalService {
                     "                                                                                                    \n" +
                     "                                                                                                    "
         )
+
+
         for (line in arr) {
             for (art in line) {
-                println(enters)
+
                 println(art)
             }
             Thread.sleep(200)
-
-            /*
-            ProcessBuilder("clear")
-                .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-                .redirectError(ProcessBuilder.Redirect.INHERIT)
-                .start()
-                .waitFor()
-            clearConsole()
-            Runtime.getRuntime().exec("clear")
-            */
         }
-
-    }
-
-    fun clearConsole() {
-        val os = System.getProperty("os.name").toLowerCase()
-
-        val processBuilder = when {
-            os.contains("win") -> ProcessBuilder("cmd", "/c", "cls")
-            os.contains("nix") || os.contains("nux") || os.contains("mac") -> ProcessBuilder("clear")
-            else -> null
-        }
-
-        processBuilder?.inheritIO()?.start()?.waitFor()
     }
 }
