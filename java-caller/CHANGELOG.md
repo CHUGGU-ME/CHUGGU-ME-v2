@@ -1,3 +1,7 @@
+## [1.1.10](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.9...v1.1.10) (2023-11-24)
+
+
+
 ## [1.1.9](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.8...v1.1.9) (2023-11-24)
 player 명령어 오류 수정
 goal 명령어 애니메이션으로 나오도록 수정
