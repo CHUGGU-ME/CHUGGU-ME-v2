@@ -1,3 +1,7 @@
+## [1.1.14](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.13...v1.1.14) (2023-11-24)
+
+
+
 ## [1.1.13](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.12...v1.1.13) (2023-11-24)
 모든 shedule을 출력하기 위한 for문 내부의 break 삭제
 https://www.premierleague.com/fixtures navigate시 wait 기준 수정
