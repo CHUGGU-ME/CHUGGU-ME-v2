@@ -1,5 +1,7 @@
 ## [1.1.9](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.8...v1.1.9) (2023-11-24)
-
+player 명령어 오류 수정
+goal 명령어 애니메이션으로 나오도록 수정
+크롤링시에 웹 브라우저 보이지 않도록 수정
 
 
 ## [1.1.8](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.7...v1.1.8) (2023-11-24)
