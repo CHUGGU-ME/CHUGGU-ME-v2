@@ -3,6 +3,8 @@ package service
 import Repository.NewsRepository
 import player.PlayerRepository
 import Repository.ScheduleRepository
+import club.ClubRepository
+import club.domain.ClubCoreInfo
 import com.microsoft.playwright.ElementHandle
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.LoadState
@@ -17,7 +19,8 @@ class UpdateService(
     private val page: Page,
     private val playerRepository: PlayerRepository,
     private val newsRepository: NewsRepository,
-    private val scheduleRepository: ScheduleRepository
+    private val scheduleRepository: ScheduleRepository,
+    private val clubRepository: ClubRepository,
 ) {
 
     private fun loadPlayersPage() {
@@ -117,5 +120,43 @@ class UpdateService(
             }
         }
         scheduleRepository.save(updatedSchedule)
+    }
+
+
+    fun updateClubCoreInfo() {
+        page.navigate("https://www.premierleague.com/clubs")
+        PlaywrightUtil.firstStepOnPage(page)
+        page.waitForLoadState(LoadState.NETWORKIDLE)
+
+        val clubCardWrappers: List<ElementHandle> = page.querySelectorAll("li.club-card-wrapper")
+
+        val clubCoreInfoList = mutableListOf<ClubCoreInfo>()
+
+        clubCardWrappers.forEach {
+
+            val urlInfo: String = it.querySelector("a.club-card").getAttribute("href")
+                .split("clubs/")[1].replace("/overview", "")
+            clubCoreInfoList.add(
+                ClubCoreInfo(
+                    clubCode = urlInfo.split("/")[0],
+                    clubName = urlInfo.split("/")[1],
+                )
+            )
+        }
+
+        clubRepository.saveClubCoreInfoListWithSortByClubName(clubCoreInfoList)
+    }
+
+    fun getSavedClubSeason(): String{
+        try {
+            return clubRepository.getClubSeason()
+        }catch (exception: FileNotFoundException){
+            return ""
+        }
+    }
+
+    fun updateClubInfo(){
+        val pageSeason: String = page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current").innerText()
+        if(pageSeason.equals(getSavedClubSeason())) return
     }
 }
