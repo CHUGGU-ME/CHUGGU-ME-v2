@@ -1,5 +1,6 @@
 ## [1.1.14](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.13...v1.1.14) (2023-11-24)
-
+player 오류 수정
+ - 광고 닫는 로직 예외 처리
 
 
 ## [1.1.13](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.12...v1.1.13) (2023-11-24)
