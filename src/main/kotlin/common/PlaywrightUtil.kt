@@ -25,7 +25,6 @@ class PlaywrightUtil {
         * skip ad
         * */
         fun firstStepOnPage(page: Page){
-            page.waitForLoadState(LoadState.LOAD)
             if (page.querySelector("#onetrust-banner-sdk > div") != null) {
                 page.querySelector("#onetrust-accept-btn-handler").click()
             }
