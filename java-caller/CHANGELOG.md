@@ -1,5 +1,7 @@
 ## [1.1.8](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.7...v1.1.8) (2023-11-24)
-
+배포 시 의존성 관리를 위해 package-lock.json -> npm-shrinkwrap.json으로 변경
+update 명령어 수행 시 쿠키 허용 및 광고 닫는 로직 첫 번째 서비스에서만 수행하도록 변경
+jarPath 재설정: rootPath를 __dirname으로 지정
 
 
 ## [1.1.7](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.6...v1.1.7) (2023-11-23)
