@@ -20,15 +20,16 @@ class UpdateService(
     private val scheduleRepository: ScheduleRepository
 ) {
 
-    private fun loadPlayersPage() {
-        page.navigate("https://www.premierleague.com/players")
+
+    fun initUpdateService(){
+        page.navigate("https://www.premierleague.com")
         PlaywrightUtil.firstStepOnPage(page)
         PlaywrightUtil.ignoreDownImage(page)
     }
 
     private fun updatePlayerCoreInfo() {
         page.keyboard().press("End")
-        page.waitForTimeout(30000.0)
+        page.waitForTimeout(40000.0)
 
         val players: List<ElementHandle> = page.querySelectorAll("tr.player")
 
@@ -53,8 +54,8 @@ class UpdateService(
     }
 
     fun updatePlayer() {
-        loadPlayersPage()
-        page.waitForLoadState(LoadState.NETWORKIDLE)
+        page.navigate("https://www.premierleague.com/players")
+        page.waitForTimeout(10000.0)
         val pageSeason: String =
             page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current")
                 .innerText()
@@ -73,7 +74,7 @@ class UpdateService(
 
     fun updateNews() {
         page.navigate("https://www.premierleague.com/news")
-        page.waitForLoadState(LoadState.NETWORKIDLE)
+        page.waitForTimeout(10000.0)
 
         val newsList = page.querySelectorAll("#mainContent > section > div.wrapper.col-12 > ul > li ")
         val saveNewsList = mutableListOf<News>()
@@ -96,7 +97,7 @@ class UpdateService(
 
     fun updateSchedule() {
         page.navigate("https://www.premierleague.com/fixtures")
-        page.waitForTimeout(5000.0)
+        page.waitForTimeout(10000.0)
 
         val dateContainers = page.querySelectorAll("div.fixtures__date-container")
         val updatedSchedule = mutableListOf<Fixture>()

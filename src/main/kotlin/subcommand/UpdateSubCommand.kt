@@ -28,6 +28,7 @@ class UpdateSubCommand : Subcommand("update", "Update Data") {
 
     override fun execute() {
         init()
+        updateService.initUpdateService()
         updateService.updatePlayer()
         updateService.updateNews()
         updateService.updateSchedule()
