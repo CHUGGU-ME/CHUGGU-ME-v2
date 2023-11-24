@@ -1,14 +1,13 @@
 package service
 
 import Repository.NewsRepository
-import player.PlayerRepository
 import Repository.ScheduleRepository
 import com.microsoft.playwright.ElementHandle
 import com.microsoft.playwright.Page
-import com.microsoft.playwright.options.LoadState
 import common.PlaywrightUtil
 import domain.Fixture
 import domain.News
+import player.PlayerRepository
 import player.domain.PlayerCoreInfo
 import java.io.FileNotFoundException
 import java.util.*
@@ -22,7 +21,7 @@ class UpdateService(
 
 
     fun initUpdateService(){
-        page.navigate("https://www.premierleague.com")
+        PlaywrightUtil.navigate(page, "https://www.premierleague.com")
         PlaywrightUtil.firstStepOnPage(page)
         PlaywrightUtil.ignoreDownImage(page)
     }
@@ -54,7 +53,7 @@ class UpdateService(
     }
 
     fun updatePlayer() {
-        page.navigate("https://www.premierleague.com/players")
+        PlaywrightUtil.navigate(page, "https://www.premierleague.com/players")
         page.waitForTimeout(10000.0)
         val pageSeason: String =
             page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current")
@@ -73,7 +72,7 @@ class UpdateService(
     }
 
     fun updateNews() {
-        page.navigate("https://www.premierleague.com/news")
+        PlaywrightUtil.navigate(page, "https://www.premierleague.com/news")
         page.waitForTimeout(10000.0)
 
         val newsList = page.querySelectorAll("#mainContent > section > div.wrapper.col-12 > ul > li ")
@@ -96,7 +95,7 @@ class UpdateService(
     }
 
     fun updateSchedule() {
-        page.navigate("https://www.premierleague.com/fixtures")
+        PlaywrightUtil.navigate(page, "https://www.premierleague.com/fixtures")
         page.waitForTimeout(10000.0)
 
         val dateContainers = page.querySelectorAll("div.fixtures__date-container")

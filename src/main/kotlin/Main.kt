@@ -6,7 +6,7 @@ import kotlin.system.exitProcess
 
 
 fun main(args: Array<String>) {
-    val parser = ArgParser("chuggue-me")
+    val parser = ArgParser("chuggueme")
 
     parser.subcommands(
         NewsSubCommand(),

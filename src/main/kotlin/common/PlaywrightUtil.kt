@@ -1,7 +1,6 @@
 package common
 
 import com.microsoft.playwright.*
-import com.microsoft.playwright.options.LoadState
 
 class PlaywrightUtil {
     companion object{
@@ -17,6 +16,22 @@ class PlaywrightUtil {
             val context: BrowserContext = browser.newContext()
             val page: Page = context.newPage()
             return page
+        }
+
+        fun navigate(page: Page, url: String){
+            var retry: Int = 0
+            while(true){
+                try{
+                    page.navigate(url, Page.NavigateOptions().setTimeout(5000.0))
+                    break
+                }catch (timeoutErr: TimeoutError){
+                    retry++
+                }
+                if(retry == 3){
+                    throw Exception()
+                    break
+                }
+            }
         }
 
 
@@ -38,7 +53,6 @@ class PlaywrightUtil {
         * */
         fun ignoreDownImage(page: Page){
             page.route("**/*.{png,jpg,jpeg}") { route: Route -> route.abort() }
-
         }
     }
 }
