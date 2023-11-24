@@ -1,5 +1,5 @@
 ## [1.1.15](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.14...v1.1.15) (2023-11-24)
-
+mom 추가
 
 
 ## [1.1.14](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.13...v1.1.14) (2023-11-24)
