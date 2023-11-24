@@ -1,4 +1,4 @@
-import Help.HelpSubCommand
+import help.HelpSubCommand
 import authors.AuthorSubCommand
 import common.fileioexample.subcommand.PersonSubCommand
 import kotlinx.cli.ArgParser

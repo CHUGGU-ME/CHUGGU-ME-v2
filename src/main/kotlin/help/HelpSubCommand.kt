@@ -1,4 +1,4 @@
-package Help
+package help
 
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
