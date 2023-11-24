@@ -1,3 +1,10 @@
+## [1.1.13](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.12...v1.1.13) (2023-11-24)
+모든 shedule을 출력하기 위한 for문 내부의 break 삭제
+https://www.premierleague.com/fixtures navigate시 wait 기준 수정
+ - 기존: 무조건 10초 대기
+ - 변경: schedule을 구성하기 위한 element querySelect가 모두 null이 아닐 때까지 1초마다 wait
+
+
 ## [1.1.12](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.11...v1.1.12) (2023-11-24)
 명령어 추가: help, author
 
