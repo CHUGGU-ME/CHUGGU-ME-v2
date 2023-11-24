@@ -186,7 +186,6 @@ cd 추가 필요
 ```bash
 추가 필요
 ```
-### Open your web browser and go to [헬스체크 url](http:localhost:8080/hello)
 
 
 
