@@ -1,3 +1,9 @@
+## [1.1.9](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.8...v1.1.9) (2023-11-24)
+player 명령어 오류 수정
+goal 명령어 애니메이션으로 나오도록 수정
+크롤링시에 웹 브라우저 보이지 않도록 수정
+
+
 ## [1.1.8](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.7...v1.1.8) (2023-11-24)
 배포 시 의존성 관리를 위해 package-lock.json -> npm-shrinkwrap.json으로 변경
 update 명령어 수행 시 쿠키 허용 및 광고 닫는 로직 첫 번째 서비스에서만 수행하도록 변경
