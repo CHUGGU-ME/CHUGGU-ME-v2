@@ -10,6 +10,7 @@ group = "com.chuggume"
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -18,6 +19,7 @@ dependencies {
     implementation("com.microsoft.playwright:playwright:1.28.1")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.3.0")
+    implementation("net.rubygrapefruit:native-platform:0.21")
     testImplementation(kotlin("test"))
 }
 
