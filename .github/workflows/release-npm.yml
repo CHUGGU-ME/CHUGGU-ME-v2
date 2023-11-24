@@ -25,18 +25,29 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x test
 
       - name: Deploy
         run: |
           mkdir -p ./java-caller/deploy
           cp build/libs/*.jar ./java-caller/deploy
-        env:
-          JAVA_JAR_PATH: ./java-caller/deploy/*.jar
 
       - name: Display JAR contents
-        run: unzip -l $JAVA_JAR_PATH
+        run: unzip -l ./java-caller/deploy/*.jar
         if: success()
 
       - name: Install Node.js and Yarn

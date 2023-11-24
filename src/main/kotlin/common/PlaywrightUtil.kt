@@ -12,7 +12,7 @@ class PlaywrightUtil {
                 .launch(
                     BrowserType
                         .LaunchOptions()
-                        .setHeadless(false)
+                        .setHeadless(true)
                 )
             val context: BrowserContext = browser.newContext()
             val page: Page = context.newPage()
@@ -25,11 +25,10 @@ class PlaywrightUtil {
         * skip ad
         * */
         fun firstStepOnPage(page: Page){
-            page.waitForLoadState(LoadState.LOAD)
-            if (page.querySelector("#onetrust-banner-sdk > div").isVisible) {
+            if (page.querySelector("#onetrust-banner-sdk > div") != null) {
                 page.querySelector("#onetrust-accept-btn-handler").click()
             }
-            if(page.querySelector("#advertClose").isVisible){
+            if(page.querySelector("#advertClose") != null){
                 page.querySelector("#advertClose").click()
             }
         }

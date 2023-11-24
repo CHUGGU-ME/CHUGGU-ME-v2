@@ -13,7 +13,7 @@ class GoalService {
             "  GGGG     OOOO    A       A  LLLLLLL   !!     !!  ",
         )
         for (line in gLetter) {
-            Runtime.getRuntime().exec("clear")
+            println(line)
         }
     }
     var arr: MutableList<MutableList<String>> = mutableListOf()

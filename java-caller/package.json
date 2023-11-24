@@ -1,13 +1,14 @@
 {
   "name": "chuggume",
-  "version": "1.1.1",
+  "version": "1.1.8",
   "type": "commonjs",
   "description": "EPL info cli program",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --trace-warnings ./index.js",
-    "release": "shipjs prepare"
+    "release": "shipjs prepare",
+    "chuggume": "node ./bin/chuggume"
   },
   "author": "chu-ggu-me",
   "license": "ISC",
@@ -25,5 +26,9 @@
   "dependencies": {
     "java-caller": "^3.1.1",
     "yargs": "^17.7.2"
-  }
+  },
+  "file": [
+    "deploy/CHUGGU-ME-v2.jar",
+    "index.js"
+  ]
 }

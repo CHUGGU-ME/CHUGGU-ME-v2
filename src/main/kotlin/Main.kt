@@ -21,10 +21,10 @@ fun main(args: Array<String>) {
         HelpSubCommand(),
         AuthorSubCommand()
         )
+
     parser.parse(args)
 
     exitProcess(0)
-
 }
 
 

@@ -4,5 +4,7 @@ build
 .DS_Store
 java-caller/.env
 java-caller/node_modules
+java-caller/epl-data/*
 CHUGGU-ME-v2
 epl-data/*
+java-caller/deploy
