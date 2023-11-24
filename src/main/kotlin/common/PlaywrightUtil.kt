@@ -19,17 +19,20 @@ class PlaywrightUtil {
             return page
         }
 
-
         /*
         * allow cookie
         * skip ad
         * */
-        fun firstStepOnPage(page: Page){
+        fun firstStepOnPage(page: Page) {
             if (page.querySelector("#onetrust-banner-sdk > div") != null) {
                 page.querySelector("#onetrust-accept-btn-handler").click()
             }
-            if(page.querySelector("#advertClose") != null){
-                page.querySelector("#advertClose").click()
+            val advertClose = page.querySelector("#advertClose") ?: return
+            if (advertClose.isHidden) return
+            try {
+                advertClose.click()
+            } catch (e: Throwable) {
+                return
             }
         }
 
