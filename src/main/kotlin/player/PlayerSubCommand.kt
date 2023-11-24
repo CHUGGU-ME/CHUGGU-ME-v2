@@ -10,6 +10,7 @@ import kotlinx.cli.Subcommand
 class PlayerSubCommand : Subcommand("player", "Player info") {
 
     val playerName by argument(ArgType.String, description = "Player Name")
+
     lateinit var page: Page
     lateinit var playerService: PlayerService
     lateinit var playerInputView: PlayerInputView
@@ -18,6 +19,8 @@ class PlayerSubCommand : Subcommand("player", "Player info") {
 
     private fun init() {
         page = PlaywrightUtil.getNewPlayWrightPage()
+        playerInputView = PlayerInputView()
+        playerOutputView = PlayerOutView()
         playerService = PlayerService(
             page = page,
             playerRepository = PlayerRepository()

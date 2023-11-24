@@ -17,10 +17,10 @@ fun main(args: Array<String>) {
         ArticleSubCommand(),
         ScheduleSubCommand(),
         )
+
     parser.parse(args)
 
     exitProcess(0)
-
 }
 
 

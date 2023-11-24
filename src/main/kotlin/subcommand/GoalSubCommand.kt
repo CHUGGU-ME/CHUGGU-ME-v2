@@ -16,6 +16,6 @@ class GoalSubCommand : Subcommand("goal", "GOAL!!") {
 
     override fun execute() {
         init()
-        goalService.printlnGoal()
+        goalService.printlnIdiot()
     }
 }
