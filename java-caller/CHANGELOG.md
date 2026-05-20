@@ -1,3 +1,9 @@
+# [2.1.0](/compare/v1.1.15...v2.1.0) (2026-05-20)
+
+
+### Features
+
+* Playwright 크롤링을 Premier League API 직접 호출로 전환 0e30bbd
 ## [2.0.0](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.15...v2.0.0) (2026-05-20)
 Playwright 크롤링 → Premier League API 직접 호출로 전면 전환
  - Playwright 의존성 제거 (브라우저 설치 불필요)
