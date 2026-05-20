@@ -1,3 +1,7 @@
+## [2.0.1](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v2.0.0...v2.0.1) (2026-05-20)
+help 커맨드에 table 추가, mom 제거
+
+
 ## [2.0.0](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.15...v2.0.0) (2026-05-20)
 Playwright 크롤링 → Premier League API 직접 호출로 전면 전환
  - Playwright 의존성 제거 (브라우저 설치 불필요)
