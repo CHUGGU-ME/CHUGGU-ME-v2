@@ -1,3 +1,13 @@
+## [2.0.0](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.15...v2.0.0) (2026-05-20)
+Playwright 크롤링 → Premier League API 직접 호출로 전면 전환
+ - Playwright 의존성 제거 (브라우저 설치 불필요)
+ - 데이터 수집 속도 대폭 개선 (30초+ → 수 초)
+ - 리그 테이블(table) 커맨드 추가
+ - CLI 명령어를 `epl`로 변경
+ - 시즌 자동 감지 (시즌 ID 하드코딩 제거)
+ - 2025/26 시즌 데이터 정상 동작 확인
+
+
 ## [1.1.15](https://github.com/CHUGGU-ME/CHUGGU-ME-v2/compare/v1.1.14...v1.1.15) (2023-11-24)
 mom 추가
 

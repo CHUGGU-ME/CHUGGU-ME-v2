@@ -17,6 +17,7 @@ fun main(args: Array<String>) {
         PersonSubCommand(),
         ArticleSubCommand(),
         ScheduleSubCommand(),
+        StandingsSubCommand(),
         HelpSubCommand(),
         AuthorSubCommand()
         )

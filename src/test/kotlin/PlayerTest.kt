@@ -1,4 +1,3 @@
-import common.PlaywrightUtil
 import org.junit.jupiter.api.DisplayName
 import player.PlayerOutView
 import player.PlayerRepository
@@ -8,7 +7,6 @@ import kotlin.test.Test
 class PlayerTest {
 
     val playerService: PlayerService = PlayerService(
-        page = PlaywrightUtil.getNewPlayWrightPage(),
         playerRepository = PlayerRepository()
     )
 

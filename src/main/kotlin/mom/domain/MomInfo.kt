@@ -1,6 +1,5 @@
 package mom.domain
 
-import com.microsoft.playwright.Page
 import kotlinx.serialization.Serializable
 
 @Serializable

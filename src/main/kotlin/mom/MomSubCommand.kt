@@ -1,7 +1,5 @@
 package mom
 
-import com.microsoft.playwright.Page
-import common.PlaywrightUtil
 import kotlinx.cli.ArgType
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
@@ -13,22 +11,11 @@ class MomSubCommand : Subcommand("mom", "Man of the Match info") {
     val matchDate by argument(ArgType.String, description = "Match Date")
     val matchTeam by argument(ArgType.String, description = "Match Team")
 
-    lateinit var page: Page
-    lateinit var momService: MomService
-    //lateinit var momInfoInputView: MomInfoInputView
-    lateinit var momInfoOutView: MomInfoOutView
-
-
-    private fun init() {
-        page = PlaywrightUtil.getNewPlayWrightPage()
-        momService = MomService(
-            page = page,
+    override fun execute() {
+        val momService = MomService(
             momRepository = MomRepository()
         )
-    }
-
-    override fun execute() {
-        init()
+        val momInfoOutView = MomInfoOutView()
         val searchedMomInfo = momService.searchMomInfo(matchSeason, matchDate, matchTeam)
         momInfoOutView.printMomInfo(searchedMomInfo)
     }

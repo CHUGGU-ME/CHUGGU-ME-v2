@@ -1,7 +1,10 @@
 package player.domain
 
-import com.microsoft.playwright.Page
+import com.google.gson.JsonObject
+import common.PremierLeagueApi
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Player(
     val firstName: String,
     val lastName: String,
@@ -14,24 +17,49 @@ data class Player(
     val score: String,
     val assist: String,
     val playerUrl: String,
-){
+) {
 
-    companion object{
-        fun of(page: Page): Player {
+    companion object {
+        fun of(playerCode: String): Player {
+            val json = PremierLeagueApi.getJson("/football/players/$playerCode")
+
+            val name = json.getAsJsonObject("name")
+            val firstName = name.get("first")?.asString ?: ""
+            val lastName = name.get("last")?.asString ?: ""
+
+            val info = json.getAsJsonObject("info")
+            val shirtNum = info?.get("shirtNum")?.asString ?: "-"
+            val positionInfo = info?.get("positionInfo")?.asString ?: info?.get("position")?.asString ?: "-"
+
+            val club = json.getAsJsonObject("currentTeam")
+                ?.getAsJsonObject("club")
+                ?.get("name")?.asString ?: "-"
+
+            val nationality = json.getAsJsonObject("nationalTeam")
+                ?.get("country")?.asString ?: "-"
+
+            val birth = json.getAsJsonObject("birth")
+                ?.getAsJsonObject("date")
+                ?.get("label")?.asString ?: "-"
+
+            val heightCm = json.get("height")?.asString ?: "-"
+
+            val goals = json.get("goals")?.asString ?: "0"
+            val assists = json.get("assists")?.asString ?: "0"
+
             return Player(
-                firstName = page.querySelector(".player-header__name-first").innerText(),
-                lastName = page.querySelector(".player-header__name-last").innerText(),
-                number = page.querySelector("section > div.player-header__player-number.player-header__player-number--large").innerText(),
-                position = page.querySelector("div.wrapper.hasFixedSidebar > nav > div > section:nth-child(1) > div:nth-child(3) > div.player-overview__info").innerText(),
-                club = page.querySelector("div.wrapper.hasFixedSidebar > nav > div > section:nth-child(1) > div:nth-child(2) > div.player-overview__info").innerText(),
-                nationality = page.querySelector(".player-info__player-country").innerText(),
-                dateOfBirth = page.querySelector("div.wrapper.hasFixedSidebar > div > div > div.player-info.u-hide-mob > section > div > div:nth-child(2) > div.player-info__info").innerText(),
-                height = page.querySelector("div.wrapper.hasFixedSidebar > div > div > div.player-info.u-hide-mob > section > div > div:nth-child(3) > div.player-info__info").innerText(),
-                score = page.querySelector("div.wrapper.hasFixedSidebar > nav > div > section:nth-child(2) > div > div:nth-child(2) > div.player-overview__info").innerText(),
-                assist = page.querySelector("div.wrapper.hasFixedSidebar > nav > div > section:nth-child(2) > div > div:nth-child(3) > div.player-overview__info").innerText(),
-                playerUrl = page.url(),
+                firstName = firstName,
+                lastName = lastName,
+                number = shirtNum,
+                club = club,
+                position = positionInfo,
+                nationality = nationality,
+                dateOfBirth = birth,
+                height = if (heightCm != "-") "${heightCm}cm" else "-",
+                score = goals,
+                assist = assists,
+                playerUrl = "https://www.premierleague.com/players/$playerCode/${firstName}-${lastName}",
             )
         }
     }
-
 }

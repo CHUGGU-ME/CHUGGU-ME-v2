@@ -1,152 +1,125 @@
 package service
 
 import Repository.NewsRepository
+import Repository.ScheduleRepository
 import player.PlayerRepository
-import com.microsoft.playwright.ElementHandle
-import com.microsoft.playwright.Page
-import com.microsoft.playwright.options.LoadState
-import common.PlaywrightUtil
+import common.PremierLeagueApi
+import domain.Fixture
 import domain.News
-import mom.MomRepository
-import mom.domain.MomInfo
 import player.domain.PlayerCoreInfo
 import java.io.FileNotFoundException
-import java.util.*
 
 class UpdateService(
-    private val page: Page,
     private val playerRepository: PlayerRepository,
     private val newsRepository: NewsRepository,
-    private val momRepository: MomRepository,
+    private val scheduleRepository: ScheduleRepository,
 ) {
 
-    private fun loadPlayersPage() {
-        page.navigate("https://www.premierleague.com/players")
-        PlaywrightUtil.firstStepOnPage(page)
-        PlaywrightUtil.ignoreDownImage(page)
-    }
+    private val currentSeasonId: Int by lazy { fetchCurrentSeasonId() }
 
-    private fun updatePlayerCoreInfo() {
-        page.keyboard().press("End")
-        page.waitForTimeout(30000.0)
-
-        val players: List<ElementHandle> = page.querySelectorAll("tr.player")
-
-        val savePlayerCoreInfoList = mutableListOf<PlayerCoreInfo>()
-
-        players.forEach {
-            val urlInfo: String = it.querySelector("a.player__name").getAttribute("href")
-                .split("players/")[1].replace("/overview", "")
-
-            savePlayerCoreInfoList.add(
-                PlayerCoreInfo(
-                    playerCode = urlInfo.split("/")[0],
-                    playerName = urlInfo.split("/")[1].uppercase(Locale.getDefault())
-                )
-            )
-        }
-        playerRepository.savePlayerCoreInfoListWithSortByPlayerName(savePlayerCoreInfoList)
-    }
-
-    fun updatePlayerSeasonInfo() {
-        // TODO...
+    private fun fetchCurrentSeasonId(): Int {
+        val json = PremierLeagueApi.getJson("/football/competitions/1/compseasons?page=0&pageSize=1")
+        return json.getAsJsonArray("content")[0].asJsonObject.get("id").asInt
     }
 
     fun updatePlayer() {
-        loadPlayersPage()
-        page.waitForLoadState(LoadState.NETWORKIDLE)
-        val pageSeason: String =
-            page.querySelector("#mainContent > div.playerIndex > div.wrapper > div > section > div.dropDown.active > div.current")
-                .innerText()
+        val seasonLabel = fetchSeasonLabel()
 
-        lateinit var savedSeason: String
-        try {
-            savedSeason = playerRepository.getPlayerSeason()
-        } catch (exception: FileNotFoundException) {
-            savedSeason = ""
+        val savedSeason = try {
+            playerRepository.getPlayerSeason()
+        } catch (e: Exception) {
+            ""
         }
-        if (pageSeason.equals(savedSeason)) return
-        playerRepository.savePlayerSeason(pageSeason)
+        if (seasonLabel == savedSeason) return
+        playerRepository.savePlayerSeason(seasonLabel)
         updatePlayerCoreInfo()
-        updatePlayerSeasonInfo()
+    }
+
+    private fun fetchSeasonLabel(): String {
+        val json = PremierLeagueApi.getJson("/football/compseasons/$currentSeasonId")
+        return json.get("label").asString
+    }
+
+    private fun updatePlayerCoreInfo() {
+        val savePlayerCoreInfoList = mutableListOf<PlayerCoreInfo>()
+        var page = 0
+
+        while (true) {
+            val json = PremierLeagueApi.getJson(
+                "/football/players?pageSize=100&compSeasons=$currentSeasonId&altIds=true&page=$page&type=player&id=-1&compSeasonId=$currentSeasonId"
+            )
+            val content = json.getAsJsonArray("content")
+            if (content.size() == 0) break
+
+            content.forEach { element ->
+                val player = element.asJsonObject
+                val id = player.get("id").asLong.toString()
+                val name = player.getAsJsonObject("name").get("display").asString
+                savePlayerCoreInfoList.add(PlayerCoreInfo(playerCode = id, playerName = name))
+            }
+
+            val pageInfo = json.getAsJsonObject("pageInfo")
+            val currentPage = pageInfo.get("page").asInt
+            val numPages = pageInfo.get("numPages").asInt
+            if (currentPage >= numPages - 1) break
+            page++
+        }
+
+        playerRepository.savePlayerCoreInfoListWithSortByPlayerName(savePlayerCoreInfoList)
     }
 
     fun updateNews() {
-        page.navigate("https://www.premierleague.com/news")
-        page.waitForLoadState(LoadState.NETWORKIDLE)
+        val content = PremierLeagueApi.getJsonArray(
+            "/content/premierleague/text/EN?pageSize=10&type=article",
+            "content"
+        )
 
-        val newsList =
-            page.querySelectorAll("#mainContent > section > div.wrapper.col-12 > ul > li ")
         val saveNewsList = mutableListOf<News>()
-        var num = 1
-
-        for (news in newsList) {
-            val title = news.querySelector(".media-thumbnail__title").innerText()
-            var url =
-                page.querySelector("#mainContent > section > div.wrapper.col-12 > ul > li:nth-child($num) > a")
-                    .getAttribute("href")
-
-            url = url.replace("//", "https:")
-
-            val saveNews = News(num, title, url)
-            saveNewsList.add(saveNews)
-            num += 1
+        content.forEachIndexed { index, element ->
+            val article = element.asJsonObject
+            val title = article.get("title").asString
+            val slug = article.get("titleUrlSegment").asString
+            val url = "https://www.premierleague.com/news/$slug"
+            saveNewsList.add(News(no = index + 1, title = title, url = url))
         }
 
         newsRepository.saveNewsInfo(saveNewsList)
     }
 
     fun updateSchedule() {
-        page.navigate("https://www.premierleague.com/fixtures")
-        while (!page.isVisible("div.fixtures__date-container") && !page.isVisible(".match-fixture")) {
-            page.waitForTimeout(100.0)
-        }
-    }
+        val content = PremierLeagueApi.getJsonArray(
+            "/football/fixtures?compSeasons=$currentSeasonId&pageSize=20&sort=asc&statuses=U",
+            "content"
+        )
 
-    fun updateMomInfo() {
-        page.navigate("https://www.premierleague.com/man-of-the-match")
-        page.waitForLoadState(LoadState.NETWORKIDLE)
+        val saveScheduleList = mutableListOf<Fixture>()
+        content.forEachIndexed { index, element ->
+            val fixture = element.asJsonObject
+            val kickoff = fixture.getAsJsonObject("kickoff")
+            val kickoffLabel = kickoff.get("label").asString  // "Sun 24 May 2026, 16:00 BST"
+            val commaIdx = kickoffLabel.indexOf(", ")
+            val date = if (commaIdx >= 0) kickoffLabel.substring(0, commaIdx) else kickoffLabel
+            val timePart = if (commaIdx >= 0) kickoffLabel.substring(commaIdx + 2).trim() else ""
+            val time = timePart.split(" ")[0]  // "16:00"
 
-        //val momList = page.querySelectorAll("li.kotm-match-list__row.js-kotm-row")
-        val sMominfoList = mutableListOf<MomInfo>()
-        val list = page.querySelectorAll(".kotm-match-list__row")
-        while (!page.isVisible("li.kotm-match-list__row.js-kotm-row") && !page.isVisible(".kotm-match-list__row") && !page.isVisible(
-                "onetrust-accept-btn-handler"
-            )
-        ) {
-            page.waitForTimeout(100.0)
-        }
+            val teams = fixture.getAsJsonArray("teams")
+            val home = teams[0].asJsonObject.getAsJsonObject("team").get("shortName").asString
+            val away = teams[1].asJsonObject.getAsJsonObject("team").get("shortName").asString
+            val ground = fixture.getAsJsonObject("ground")
+            val venue = ground.get("name").asString
 
-        println("#list = ${list.size}")
-//        val blockScreenElement = page.querySelector("#onetrust-accept-btn-handler")
-//        blockScreenElement.click()
-
-        list.forEach { momElement ->
-            val dateElement = momElement.querySelector(".kotm-match-list__time--small")
-            val matchElement = momElement.querySelector(".kotm-match-list__fixture")
-            val playerNameElement = momElement.querySelector(".kotm-match-list__player-name")
-
-            momElement.click()
-            while (!page.isVisible("div.kotm-results__fixture-stats > div:nth-child(1) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")) {
-                page.waitForTimeout(100.0)
-            }
-            val goalElement =
-                page.querySelector("div.kotm-results__fixture-stats > div:nth-child(1) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")
-            val assistElement =
-                page.querySelector("div.kotm-results__fixture-stats > div:nth-child(2) > span.kotm-results__fixture-stats-value.kotm-results__fixture-stats-value--bold")
-            sMominfoList.add(
-                MomInfo(
-                    matchDate = dateElement.innerText(),
-                    match = matchElement.innerText(),
-                    playerName = playerNameElement.innerText(),
-                    goals = goalElement.innerText(),
-                    assist = assistElement.innerText(),
+            saveScheduleList.add(
+                Fixture(
+                    no = index + 1,
+                    date = date,
+                    time = time,
+                    home = home,
+                    away = away,
+                    venue = venue
                 )
             )
-            val closeElement = page.querySelector("#mainContent > section > div > button")
-            closeElement.click()
-
         }
-        momRepository.saveMomInfoList(sMominfoList.toList())
+
+        scheduleRepository.save(saveScheduleList)
     }
 }

@@ -1,6 +1,5 @@
 package domain
 
-import com.microsoft.playwright.ElementHandle
 import kotlinx.serialization.Serializable
 
 @Serializable
