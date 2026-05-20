@@ -1,6 +1,6 @@
 {
   "name": "chuggume",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "commonjs",
   "description": "EPL info cli program",
   "main": "index.js",
