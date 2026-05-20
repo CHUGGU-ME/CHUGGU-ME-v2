@@ -11,7 +11,7 @@ class HelpOutputView {
             "update" to "EPL 선수 목록, 리그 성적 등의 정보를 최신으로 업데이트 합니다.",
             "schedule" to "EPL 경기 일정을 조회 합니다.",
             "player" to "EPL 선수 이름을 입력 하여 선수별 상세 정보를 조회할 수 있습니다.",
-            "mom" to "시즌, 경기 날짜, 해당 팀의 최고의 선수를 조회할 수 있습니다."
+            "table" to "EPL 리그 테이블(팀 순위)을 조회 합니다."
         )
 
         println(
