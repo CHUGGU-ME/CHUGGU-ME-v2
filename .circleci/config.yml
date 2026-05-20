@@ -14,22 +14,21 @@ aliases:
   - &restore_yarn_cache
     name: Restore Yarn cache
     keys:
-      - yarn-{{ .Branch }}-packages-{{ checksum "yarn.lock" }}
+      - yarn-{{ .Branch }}-packages-{{ checksum "java-caller/yarn.lock" }}
 
   - &save_yarn_cache
     name: Save Yarn cache
-    key: yarn-{{ .Branch }}-packages-{{ checksum "yarn.lock" }}
+    key: yarn-{{ .Branch }}-packages-{{ checksum "java-caller/yarn.lock" }}
     paths:
       - ~/.cache/yarn
 
   - &run_yarn_install
     name: Install dependencies
-    command: yarn install --frozen-lockfile
+    command: cd java-caller && yarn install --frozen-lockfile
 
 defaults: &defaults
-  working_directory: java-caller
   docker:
-    - image: circleci/node:latest
+    - image: cimg/node:20.18
 
 version: 2
 jobs:
@@ -48,7 +47,7 @@ jobs:
       - save_cache: *save_yarn_cache
       - run:
           name: Run Tests
-          command: yarn test
+          command: cd java-caller && yarn test
 
   prepare_release:
     <<: *defaults
@@ -63,19 +62,19 @@ jobs:
           command: |
             git config --global user.email "yoojin.an0@gmail.com"
             git config --global user.name "안유진"
-            yarn run release --yes --no-browse
+            cd java-caller && yarn run release --yes --no-browse
 
   shipjs_trigger:
     <<: *defaults
     steps:
       - checkout
-      - restore_cache: *restore_yarn_cache
       - run: *install_yarn_version
+      - restore_cache: *restore_yarn_cache
       - run: *run_yarn_install
       - save_cache: *save_yarn_cache
       - run:
           name: Triggering Ship.js to Release
-          command: yarn shipjs trigger
+          command: cd java-caller && yarn shipjs trigger
 workflows:
   version: 2
   release_if_needed:
